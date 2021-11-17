@@ -27,6 +27,5 @@ RESOURCES += \
     images.qrc
 
 DISTFILES += \
-    images/alpha_stim.png \
-    images/bar.png \
-    images/battery-icon.jpg
+    images/alpha_stim.png
+
