@@ -1,7 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>images/alpha_stim.png</file>
-    </qresource>
+    <qresource prefix="/images"/>
     <qresource prefix="/">
         <file>images/alpha_stim.png</file>
         <file>images/battery_0.png</file>
