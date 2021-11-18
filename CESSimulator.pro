@@ -25,7 +25,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images.qrc
-
-DISTFILES += \
-    images/alpha_stim.png
-
