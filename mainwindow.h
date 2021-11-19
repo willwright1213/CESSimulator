@@ -24,6 +24,7 @@ private:
     bool onStatus;
     bool reset;
     int selectedTime;
+    double amperage;
     void initialize();
     QVector<QLabel *> timerLabels;
     QVector<QWidget *> bars;
@@ -32,6 +33,7 @@ private:
     void setTimerLabels();
     void refreshCSS(QWidget *);
     void setTime(int);
+    void setAmperage(double);
 
 private slots:
     void powerButtonPress();

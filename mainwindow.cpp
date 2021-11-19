@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
+
 /**
  * @brief MainWindow::MainWindow
  * @param parent
@@ -84,11 +86,20 @@ void MainWindow::timeButtonPress() {
 }
 
 void MainWindow::upButtonPress() {
-
+    setAmperage(amperage < 5.0 ? amperage + 0.5 : 5.0);
 }
 
 void MainWindow::downButtonPress() {
+    setAmperage(amperage > 0 ? amperage - 0.5 : 0.0);
+}
 
+void MainWindow::setAmperage(double a) {
+    amperage = a;
+    int count = amperage * 2;
+    for(int i=0; i < bars.size(); ++i) {
+        if(i < count) bars[i]->setStyleSheet("background:  #1b1b1b;");
+        else bars[i]->setStyleSheet("border: 1px solid #1b1b1b;");
+    }
 }
 
 /**
@@ -126,4 +137,5 @@ void MainWindow::initialize() {
     ui->recordButton->setEnabled(onStatus);
     ui->logButton->setEnabled(onStatus);
     setTime(SIXTY);
+    setAmperage(1.0);
 }
