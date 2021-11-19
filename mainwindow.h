@@ -27,6 +27,8 @@ private:
     void initialize();
     QVector<QLabel *> timerLabels;
     //void setTime(int);
+    void setClockLabel();
+    void setTimerLabels();
 
 private slots:
     void powerOn();

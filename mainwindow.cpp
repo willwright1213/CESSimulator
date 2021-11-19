@@ -46,31 +46,40 @@ void MainWindow::powerOn() {
     reset = !reset;
 }
 
-void MainWindow::setTime() {
-    int nextTime;
-    if(reset) {selectedTime = 1;}
-    else {
-        nextTime = (selectedTime + 1) % 3;
-        QString selectedLabel = QString::number((selectedTime == TWENTY) ? 20 : (selectedTime == FOURTY) ? 40 : 60);
-        QString nextLabel = QString::number((nextTime == TWENTY) ? 20 : (nextTime == FOURTY) ? 40 : 60);
-        timerLabels[selectedTime]->setText
-                ("<html><head/><body><p align=\"center\">"
-                 "<span style=\" font-size:14pt; color:#bfbfbf;\">" +
-                 selectedLabel +
-                 "</span>""</p></body></html>");
-        timerLabels[nextTime]->setText
-                ("<html><head/><body><p align=\"center\">"
-                 "<span style=\" font-size:14pt; color:#1b1b1b; text-decoration: underline;\">" +
-                 QString::number((nextTime == TWENTY) ? 20 : (nextTime == FOURTY) ? 40 : 60) +
-                 "</span>""</p></body></html>");
-        selectedTime = nextTime;
-        ui->clockLabel->setText
-                ("<html><head/>"
-                 "<body><p align=\"right\"><span style=\" font-size:48pt; color:#1b1b1b;\">"
-                 + nextLabel + ":00"
-                 "</span></p></body></html>"
-                );
+void MainWindow::setClockLabel() {
+    QString clockLabel = QString::number(selectedTime * 20 + 20) + ":00";
+    ui->clockLabel->setText
+            ("<html><head/>"
+             "<body><p align=\"right\"><span style=\" font-size:48pt; color:#1b1b1b;\">"
+             + clockLabel
+             + "</span></p></body></html>"
+            );
+}
+
+void MainWindow::setTimerLabels() {
+    QString selectedLabel = QString::number(selectedTime * 20 + 20);
+    //clear all of the labels first:
+    for(int i=0;i<timerLabels.size();++i) {
+        QString timerLabel = QString::number(i * 20 + 20);
+        timerLabels[i]->setText(
+                    "<html><head/><body><p align=\"center\">"
+                    "<span style=\" font-size:14pt; color:#bfbfbf;\">"
+                    + timerLabel
+                    + "</span>""</p></body></html>");
     }
+    timerLabels[selectedTime]->setText
+            ("<html><head/><body><p align=\"center\">"
+             "<span style=\" font-size:14pt; color:#1b1b1b; text-decoration: underline;\">" +
+             selectedLabel +
+             "</span>""</p></body></html>");
+
+}
+
+void MainWindow::setTime() {
+    if(reset) {selectedTime = 2;}
+    else selectedTime = (selectedTime + 1) % 3;
+    setClockLabel();
+    setTimerLabels();
 }
 
 /**
