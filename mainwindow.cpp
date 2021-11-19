@@ -65,9 +65,14 @@ void MainWindow::setTimerLabels() {
 }
 
 void MainWindow::setTime(int newTime) {
+    //clear previous selected time
+    timerLabels[selectedTime]->setStyleSheet("color: #bfbfbf; font-size: 14pt;");
+    // set new selected time and update gui
     selectedTime = newTime;
-    setClockLabel();
-    setTimerLabels();
+    QString clockLabel = QString::number(selectedTime * 20 + 20) + ":00";
+    ui->clockLabel->setText(clockLabel);
+    ui->clockLabel->setStyleSheet("color: #1b1b1b; font-size: 48pt;");
+    timerLabels[selectedTime]->setStyleSheet("color: #1b1b1b; font-size: 14pt; text-decoration: underline;");
 }
 
 /* slots starts here */

@@ -149,6 +149,9 @@
             </item>
             <item>
              <widget class="QLabel" name="twenty">
+              <property name="styleSheet">
+               <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+              </property>
               <property name="text">
                <string>20</string>
               </property>
@@ -156,6 +159,9 @@
             </item>
             <item>
              <widget class="QLabel" name="fourty">
+              <property name="styleSheet">
+               <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+              </property>
               <property name="text">
                <string>40</string>
               </property>
@@ -163,6 +169,9 @@
             </item>
             <item>
              <widget class="QLabel" name="sixty">
+              <property name="styleSheet">
+               <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+              </property>
               <property name="text">
                <string>60</string>
               </property>
