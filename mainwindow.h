@@ -25,10 +25,9 @@ private:
     bool reset;
     int selectedTime;
     double amperage;
-    void initialize();
     QVector<QLabel *> timerLabels;
     QVector<QWidget *> bars;
-    //void setTime(int);
+    void initialize();
     void setClockLabel();
     void setTimerLabels();
     void refreshCSS(QWidget *);
