@@ -150,21 +150,21 @@
             <item>
              <widget class="QLabel" name="twenty">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#bfbfbf;&quot;&gt;20&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>20</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="fourty">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#bfbfbf;&quot;&gt;40&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>40</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="sixty">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; text-decoration: underline; color:#1b1b1b;&quot;&gt;60&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>60</string>
               </property>
              </widget>
             </item>
@@ -213,35 +213,35 @@
             <item>
              <widget class="QLabel" name="one">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#1b1b1b;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>1</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="two">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#1b1b1b;&quot;&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>2</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="three">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#1b1b1b;&quot;&gt;3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>3</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="four">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#1b1b1b;&quot;&gt;4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>4</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="five">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt; color:#1b1b1b;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>5</string>
               </property>
              </widget>
             </item>

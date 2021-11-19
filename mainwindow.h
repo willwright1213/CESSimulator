@@ -26,12 +26,17 @@ private:
     int selectedTime;
     void initialize();
     QVector<QLabel *> timerLabels;
+    QVector<QWidget *> bars;
     //void setTime(int);
     void setClockLabel();
     void setTimerLabels();
+    void refreshCSS(QWidget *);
+    void setTime(int);
 
 private slots:
-    void powerOn();
-    void setTime();
+    void powerButtonPress();
+    void timeButtonPress();
+    void upButtonPress();
+    void downButtonPress();
 };
 #endif // MAINWINDOW_H

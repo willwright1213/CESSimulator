@@ -12,12 +12,26 @@ MainWindow::MainWindow(QWidget *parent)
     onStatus = false;
     reset = true;
     selectedTime = SIXTY;
+    //initialize timerLabels vector
     timerLabels.append(ui->twenty);
     timerLabels.append(ui->fourty);
     timerLabels.append(ui->sixty);
+    //initialize bars vector
+    bars.append(ui->bar1);
+    bars.append(ui->bar2);
+    bars.append(ui->bar3);
+    bars.append(ui->bar4);
+    bars.append(ui->bar5);
+    bars.append(ui->bar6);
+    bars.append(ui->bar7);
+    bars.append(ui->bar8);
+    bars.append(ui->bar9);
+    bars.append(ui->bar10);
+    connect(ui->powerButton, &QPushButton::pressed, this, &MainWindow::powerButtonPress);
+    connect(ui->timerButton, &QPushButton::pressed, this, &MainWindow::timeButtonPress);
+    connect(ui->upButton, &QPushButton::pressed, this, &MainWindow::upButtonPress);
+    connect(ui->downButton, &QPushButton::pressed, this, &MainWindow::downButtonPress);
     initialize();
-    connect(ui->powerButton, &QPushButton::pressed, this, &MainWindow::powerOn);
-    connect(ui->timerButton, &QPushButton::pressed, this, &MainWindow::setTime);
 
 }
 
@@ -26,60 +40,55 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/**
- * @brief MainWindow::powerOn
- */
-void MainWindow::powerOn() {
-    onStatus = !onStatus;
-    ui->screenWidget->setVisible(onStatus);
-    ui->blankScreenWidget->setVisible(!onStatus);
-    //Disable/Enable buttons
-    ui->upButton->setEnabled(onStatus);
-    ui->downButton->setEnabled(onStatus);
-    ui->timerButton->setEnabled(onStatus);
-    ui->lockButton->setEnabled(onStatus);
-    ui->frequencyButton->setEnabled(onStatus);
-    ui->waveFormButton->setEnabled(onStatus);
-    ui->recordButton->setEnabled(onStatus);
-    ui->logButton->setEnabled(onStatus);
-    setTime();
-    reset = !reset;
-}
 
+
+/**
+ * @brief MainWindow::setClockLabel
+ * Updates the clock label based on the selected time
+ */
 void MainWindow::setClockLabel() {
     QString clockLabel = QString::number(selectedTime * 20 + 20) + ":00";
-    ui->clockLabel->setText
-            ("<html><head/>"
-             "<body><p align=\"right\"><span style=\" font-size:48pt; color:#1b1b1b;\">"
-             + clockLabel
-             + "</span></p></body></html>"
-            );
+    ui->clockLabel->setText(clockLabel);
+    ui->clockLabel->setStyleSheet("color: #1b1b1b; font-size: 48pt;");
 }
 
 void MainWindow::setTimerLabels() {
-    QString selectedLabel = QString::number(selectedTime * 20 + 20);
     //clear all of the labels first:
-    for(int i=0;i<timerLabels.size();++i) {
-        QString timerLabel = QString::number(i * 20 + 20);
-        timerLabels[i]->setText(
-                    "<html><head/><body><p align=\"center\">"
-                    "<span style=\" font-size:14pt; color:#bfbfbf;\">"
-                    + timerLabel
-                    + "</span>""</p></body></html>");
+    for(QLabel *l: qAsConst(timerLabels)) {
+        l->setStyleSheet("color: #bfbfbf; font-size: 14pt;");
     }
-    timerLabels[selectedTime]->setText
-            ("<html><head/><body><p align=\"center\">"
-             "<span style=\" font-size:14pt; color:#1b1b1b; text-decoration: underline;\">" +
-             selectedLabel +
-             "</span>""</p></body></html>");
+    //set our selected label to "selected stylesheet"
+    timerLabels[selectedTime]->setStyleSheet("color: #1b1b1b; font-size: 14pt; text-decoration: underline;");
 
 }
 
-void MainWindow::setTime() {
-    if(reset) {selectedTime = 2;}
-    else selectedTime = (selectedTime + 1) % 3;
+void MainWindow::setTime(int newTime) {
+    selectedTime = newTime;
     setClockLabel();
     setTimerLabels();
+}
+
+/* slots starts here */
+
+/**
+ * @brief MainWindow::powerOn
+ */
+void MainWindow::powerButtonPress() {
+    onStatus = !onStatus;
+    initialize();
+}
+
+
+void MainWindow::timeButtonPress() {
+    setTime((selectedTime + 1) % 3);
+}
+
+void MainWindow::upButtonPress() {
+
+}
+
+void MainWindow::downButtonPress() {
+
 }
 
 /**
@@ -106,6 +115,8 @@ void MainWindow::setTime() {
  */
 void MainWindow::initialize() {
     ui->screenWidget->setVisible(onStatus);
+    ui->blankScreenWidget->setVisible(!onStatus);
+    //Disable/Enable buttons
     ui->upButton->setEnabled(onStatus);
     ui->downButton->setEnabled(onStatus);
     ui->timerButton->setEnabled(onStatus);
@@ -114,6 +125,5 @@ void MainWindow::initialize() {
     ui->waveFormButton->setEnabled(onStatus);
     ui->recordButton->setEnabled(onStatus);
     ui->logButton->setEnabled(onStatus);
-    //initialize labels
-    ui->clockLabel->setText("<html><head/><body><p align=\"right\"><span style=\" font-size:48pt; color:#1b1b1b;\">60:00</span></p></body></html>");
+    setTime(SIXTY);
 }
