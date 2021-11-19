@@ -47,6 +47,31 @@
         </spacer>
        </item>
        <item>
+        <widget class="QWidget" name="blankScreenWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>318</width>
+           <height>218</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>318</width>
+           <height>218</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(202, 196, 196)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QWidget" name="screenWidget" native="true">
          <property name="styleSheet">
           <string notr="true">background:rgb(202, 196, 196)</string>
@@ -57,22 +82,6 @@
             <property name="spacing">
              <number>11</number>
             </property>
-            <item>
-             <spacer name="horizontalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>25</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item>
              <widget class="QWidget" name="widget_2" native="true">
               <property name="minimumSize">
@@ -107,22 +116,6 @@
              <number>11</number>
             </property>
             <item>
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>25</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QWidget" name="clockWidget" native="true">
               <property name="minimumSize">
                <size>
@@ -140,6 +133,19 @@
                <string notr="true">border-image: url(:/images/clock.png)</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
              <widget class="QLabel" name="twenty">
@@ -161,22 +167,6 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; text-decoration: underline; color:#1b1b1b;&quot;&gt;60&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>100</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </item>
@@ -258,7 +248,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QWidget" name="widget" native="true">
+           <widget class="QWidget" name="widget_3" native="true">
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -391,13 +381,7 @@ border: 1px solid #1b1b1b;</string>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
+         <widget class="QPushButton" name="timerButton">
           <property name="text">
            <string>timer</string>
           </property>
@@ -417,26 +401,14 @@ border: 1px solid #1b1b1b;</string>
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_5">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>75</height>
-           </size>
-          </property>
+         <widget class="QPushButton" name="upButton">
           <property name="text">
            <string>up</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>75</height>
-           </size>
-          </property>
+         <widget class="QPushButton" name="downButton">
           <property name="text">
            <string>down</string>
           </property>
@@ -456,13 +428,7 @@ border: 1px solid #1b1b1b;</string>
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>50</height>
-           </size>
-          </property>
+         <widget class="QPushButton" name="lockButton">
           <property name="text">
            <string>lock</string>
           </property>
@@ -475,7 +441,7 @@ border: 1px solid #1b1b1b;</string>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <item>
-           <widget class="QPushButton" name="pushButton_10">
+           <widget class="QPushButton" name="frequencyButton">
             <property name="text">
              <string>frequency</string>
             </property>
@@ -498,7 +464,7 @@ border: 1px solid #1b1b1b;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_11">
+           <widget class="QPushButton" name="waveFormButton">
             <property name="text">
              <string>wave form</string>
             </property>
@@ -522,7 +488,7 @@ border: 1px solid #1b1b1b;</string>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QPushButton" name="pushButton_9">
+           <widget class="QPushButton" name="powerButton">
             <property name="minimumSize">
              <size>
               <width>64</width>
@@ -563,7 +529,7 @@ border: 1px solid #1b1b1b;</string>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="recordButton">
             <property name="text">
              <string>record</string>
             </property>
@@ -586,7 +552,7 @@ border: 1px solid #1b1b1b;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="logButton">
             <property name="text">
              <string>recording's log</string>
             </property>
@@ -601,7 +567,7 @@ border: 1px solid #1b1b1b;</string>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
-       <widget class="QPushButton" name="pushButton_12">
+       <widget class="QPushButton" name="toggleButton">
         <property name="text">
          <string>toggle clip</string>
         </property>
