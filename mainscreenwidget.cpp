@@ -1,0 +1,71 @@
+#include "mainscreenwidget.h"
+#include "ui_mainscreenwidget.h"
+
+MainScreenWidget::MainScreenWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::MainScreenWidget)
+{
+    ui->setupUi(this);
+    timerLabels.append(ui->t1);
+    timerLabels.append(ui->t2);
+    timerLabels.append(ui->t3);
+    //initialize bars vector
+    bars.append(ui->bar1);
+    bars.append(ui->bar2);
+    bars.append(ui->bar3);
+    bars.append(ui->bar4);
+    bars.append(ui->bar5);
+    bars.append(ui->bar6);
+    bars.append(ui->bar7);
+    bars.append(ui->bar8);
+    bars.append(ui->bar9);
+    bars.append(ui->bar10);
+    //initialze wave vector
+    waveLabels.append(ui->wave1);
+    waveLabels.append(ui->wave2);
+    waveLabels.append(ui->wave3);
+    //initialize frequency vector
+    freqLabels.append(ui->freq1);
+    freqLabels.append(ui->freq2);
+    freqLabels.append(ui->freq3);
+}
+
+void MainScreenWidget::updateTimeUi(int t) {
+    //clear previous selected time
+    for(int i=0; i < timerLabels.size(); ++i) {
+        timerLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 10pt;");
+    }
+    // set new selected time and update gui
+    QString clockLabel = QString::number(t * 20 + 20) + ":00";
+    ui->clockLabel_3->setText(clockLabel);
+    ui->clockLabel_3->setStyleSheet("color: #1b1b1b; font-size: 48pt;");
+    timerLabels[t]->setStyleSheet("color: #1b1b1b; font-size: 14pt; text-decoration: underline;");
+}
+
+void MainScreenWidget::updateAmpUi(int a) {
+    int count = a / 50;
+    for(int i=0; i < bars.size(); ++i) {
+        if(i < count) bars[i]->setStyleSheet("background:  #1b1b1b;");
+        else bars[i]->setStyleSheet("border: 1px solid #1b1b1b;");
+    }
+}
+
+void MainScreenWidget::updateFreqUi(int f) {
+    for(int i=0; i < freqLabels.size(); ++i) {
+        freqLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 10pt;");
+    }
+    freqLabels[f]->setStyleSheet("color: #1b1b1b; font-size: 10pt; text-decoration: underline;");
+}
+
+void MainScreenWidget::updateWaveUi(int w) {
+    for(int i=0; i < waveLabels.size(); ++i) {
+        waveLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 10pt;");
+    }
+    waveLabels[w]->setStyleSheet("color: #1b1b1b; font-size: 10pt; text-decoration: underline;");
+}
+
+
+MainScreenWidget::~MainScreenWidget()
+{
+    delete ui;
+}

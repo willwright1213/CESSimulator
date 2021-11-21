@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainScreenWidget</class>
+ <widget class="QWidget" name="MainScreenWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>318</width>
+    <height>223</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="batteryLayout_4">
+     <property name="spacing">
+      <number>11</number>
+     </property>
+     <item>
+      <widget class="QWidget" name="widget_7" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/images/battery_5.png)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_12">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="timerSetLayout">
+     <property name="spacing">
+      <number>11</number>
+     </property>
+     <item>
+      <widget class="QWidget" name="cWidget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-image: url(:/images/clock.png)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_10">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="t1">
+       <property name="styleSheet">
+        <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+       </property>
+       <property name="text">
+        <string>20</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="t2">
+       <property name="styleSheet">
+        <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+       </property>
+       <property name="text">
+        <string>40</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="t3">
+       <property name="styleSheet">
+        <string notr="true">color: #bfbfbf; font-size: 14pt;</string>
+       </property>
+       <property name="text">
+        <string>60</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="clockLayout_3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="frequencyLabel_3">
+           <property name="styleSheet">
+            <string notr="true">color: #1b1b1b;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>f:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="freq1">
+           <property name="styleSheet">
+            <string notr="true">color: #1b1b1b;
+font-size: 10pt;
+text-decoration: underline;</string>
+           </property>
+           <property name="text">
+            <string>0.5</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="freq2">
+           <property name="styleSheet">
+            <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>77</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="freq3">
+           <property name="styleSheet">
+            <string notr="true">color: #bfbfbf;;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>100</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="waveLabel_3">
+           <property name="styleSheet">
+            <string notr="true">color: #1b1b1b;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>w:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="wave1">
+           <property name="styleSheet">
+            <string notr="true">color: #1b1b1b;
+font-size: 10pt;
+text-decoration: underline;</string>
+           </property>
+           <property name="text">
+            <string>α</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="wave2">
+           <property name="styleSheet">
+            <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>B</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="wave3">
+           <property name="styleSheet">
+            <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+           </property>
+           <property name="text">
+            <string>y</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="clockLabel_3">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:48pt; color:#1b1b1b;&quot;&gt;16:42 &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="numberLabel_3">
+     <property name="spacing">
+      <number>7</number>
+     </property>
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="n1">
+       <property name="styleSheet">
+        <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="n2">
+       <property name="styleSheet">
+        <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="n3">
+       <property name="styleSheet">
+        <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="n4">
+       <property name="styleSheet">
+        <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="n5">
+       <property name="styleSheet">
+        <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_6" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>25</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <property name="spacing">
+       <number>15</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QWidget" name="bar1" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:  #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar2" native="true">
+        <property name="styleSheet">
+         <string notr="true">background: #1b1b1b;
+border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar3" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar4" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar5" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar6" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar7" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar8" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar9" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bar10" native="true">
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #1b1b1b;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

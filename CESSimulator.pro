@@ -11,15 +11,18 @@ CONFIG += c++11
 SOURCES += \
     ces.cpp \
     main.cpp \
+    mainscreenwidget.cpp \
     mainwindow.cpp \
     timer.cpp
 
 HEADERS += \
     ces.h \
+    mainscreenwidget.h \
     mainwindow.h \
     timer.h
 
 FORMS += \
+    mainscreenwidget.ui \
     mainwindow.ui
 
 # Default rules for deployment.

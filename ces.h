@@ -2,6 +2,7 @@
 #define CES_H
 
 #include <QObject>
+#include "mainscreenwidget.h"
 
 typedef enum {TWENTY, FOURTY, SIXTY} SelectedTime;
 typedef enum {POINT_FIVE, SEVENTY_SEVEN, HUNDRED} selectedFrequency;
@@ -22,6 +23,8 @@ private:
     int microAmps;
     bool powerStatus;
     bool clipperStatus;
+    MainScreenWidget *mainScreen;
+    QWidget *selectedScreen;
 
 public:
     int time() const;
@@ -40,7 +43,8 @@ signals:
     void updateWaveUi(int);
     void updateFreqUi(int);
     void updateAmpUi(int);
-    void initializeUi(bool);
+    void unlockButtons(bool);
+    void loadScreen(QWidget *screen = nullptr);
 
 public slots:
 

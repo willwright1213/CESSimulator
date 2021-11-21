@@ -19,18 +19,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QWidget *selectedScreen = nullptr;
     CES *ces;
-    QVector<QLabel *> timerLabels;
-    QVector<QLabel *> freqLabels;
-    QVector<QLabel *> waveLabels;
-    QVector<QWidget *> bars;
+
 
 public slots:
-    void updateTimeUi(int);
-    void updateWaveUi(int);
-    void updateFreqUi(int);
-    void updateAmpUi(int);
-    void initialize(bool);
+    void unlockButtons(bool);
 
 private slots:
     void powerButtonPress();
@@ -39,5 +33,6 @@ private slots:
     void downButtonPress();
     void waveButtonPress();
     void freqButtonPress();
+    void loadScreen(QWidget *);
 };
 #endif // MAINWINDOW_H
