@@ -48,12 +48,6 @@
        </item>
        <item>
         <widget class="QWidget" name="blankScreenWidget" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
          <property name="minimumSize">
           <size>
            <width>318</width>
@@ -184,21 +178,114 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <property name="leftMargin">
-               <number>30</number>
+               <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#1b1b1b;&quot;&gt;F&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <property name="spacing">
+                 <number>1</number>
                 </property>
-               </widget>
+                <property name="leftMargin">
+                 <number>12</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="frequencyLabel">
+                  <property name="styleSheet">
+                   <string notr="true">color: #1b1b1b;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>f:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="f1">
+                  <property name="styleSheet">
+                   <string notr="true">color: #1b1b1b;
+font-size: 10pt;
+text-decoration: underline;</string>
+                  </property>
+                  <property name="text">
+                   <string>0.5</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="f2">
+                  <property name="styleSheet">
+                   <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>77</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="f3">
+                  <property name="styleSheet">
+                   <string notr="true">color: #bfbfbf;;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>100</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#1b1b1b;&quot;&gt;w:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <property name="leftMargin">
+                 <number>12</number>
                 </property>
-               </widget>
+                <item>
+                 <widget class="QLabel" name="waveLabel">
+                  <property name="styleSheet">
+                   <string notr="true">color: #1b1b1b;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>w:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="w1">
+                  <property name="styleSheet">
+                   <string notr="true">color: #1b1b1b;
+font-size: 10pt;
+text-decoration: underline;</string>
+                  </property>
+                  <property name="text">
+                   <string>α</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="w2">
+                  <property name="styleSheet">
+                   <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>B</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="w3">
+                  <property name="styleSheet">
+                   <string notr="true">color: #bfbfbf;
+font-size: 10pt;</string>
+                  </property>
+                  <property name="text">
+                   <string>y</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
@@ -221,6 +308,9 @@
             </property>
             <item>
              <widget class="QLabel" name="one">
+              <property name="styleSheet">
+               <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -228,6 +318,9 @@
             </item>
             <item>
              <widget class="QLabel" name="two">
+              <property name="styleSheet">
+               <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -235,6 +328,9 @@
             </item>
             <item>
              <widget class="QLabel" name="three">
+              <property name="styleSheet">
+               <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -242,6 +338,9 @@
             </item>
             <item>
              <widget class="QLabel" name="four">
+              <property name="styleSheet">
+               <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -249,6 +348,9 @@
             </item>
             <item>
              <widget class="QLabel" name="five">
+              <property name="styleSheet">
+               <string notr="true">color: #1b1b1b; font-size: 14pt; </string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -383,6 +485,8 @@ border: 1px solid #1b1b1b;</string>
         </spacer>
        </item>
       </layout>
+      <zorder>blankScreenWidget</zorder>
+      <zorder>screenWidget</zorder>
      </widget>
     </item>
     <item>
