@@ -4,6 +4,8 @@ CES::CES(QObject *parent) : QObject(parent)
 {
     powerStatus = false;
     mainScreen = new MainScreenWidget;
+    logScreen = new LoggingWidget;
+    selectedScreen = mainScreen;
 }
 
 int CES::time() const {return selectedTime;}
@@ -31,6 +33,11 @@ void CES::setWave(int w) {
     mainScreen->updateWaveUi(selectedWave);
 }
 
+void CES::loadScreens() {
+    emit loadScreen(mainScreen);
+    //emit loadScreen(logScreen);
+}
+
 void CES::togglePower() {
     powerStatus = !powerStatus;
     if(powerStatus) {
@@ -38,10 +45,10 @@ void CES::togglePower() {
         setWave(ALPHA);
         setFrequency(POINT_FIVE);
         setAmperage(0);
-        emit loadScreen(mainScreen);
+        emit selectScreen(mainScreen);
     }
     else {
-        emit loadScreen(nullptr);
+        emit selectScreen();
     }
     emit unlockButtons(powerStatus);
 }

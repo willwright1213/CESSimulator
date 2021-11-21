@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "mainscreenwidget.h"
+#include "loggingwidget.h"
 
 typedef enum {TWENTY, FOURTY, SIXTY} SelectedTime;
 typedef enum {POINT_FIVE, SEVENTY_SEVEN, HUNDRED} selectedFrequency;
@@ -24,6 +25,7 @@ private:
     bool powerStatus;
     bool clipperStatus;
     MainScreenWidget *mainScreen;
+    LoggingWidget *logScreen;
     QWidget *selectedScreen;
 
 public:
@@ -36,6 +38,7 @@ public:
     void setFrequency(int);
     void setWave(int);
     void togglePower();
+    void loadScreens();
 
 
 signals:
@@ -44,7 +47,8 @@ signals:
     void updateFreqUi(int);
     void updateAmpUi(int);
     void unlockButtons(bool);
-    void loadScreen(QWidget *screen = nullptr);
+    void loadScreen(QWidget *screen);
+    void selectScreen(QWidget *screen = nullptr);
 
 public slots:
 

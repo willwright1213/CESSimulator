@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     ces.cpp \
+    loggingwidget.cpp \
     main.cpp \
     mainscreenwidget.cpp \
     mainwindow.cpp \
@@ -17,11 +18,13 @@ SOURCES += \
 
 HEADERS += \
     ces.h \
+    loggingwidget.h \
     mainscreenwidget.h \
     mainwindow.h \
     timer.h
 
 FORMS += \
+    loggingwidget.ui \
     mainscreenwidget.ui \
     mainwindow.ui
 

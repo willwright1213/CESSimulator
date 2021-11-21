@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->waveFormButton, &QPushButton::pressed, this, &MainWindow::waveButtonPress);
     connect(ces, &CES::unlockButtons, this, &MainWindow::unlockButtons);
     connect(ces, &CES::loadScreen, this, &MainWindow::loadScreen);
+    connect(ces, &CES::selectScreen, this, &MainWindow::selectScreen);
+
+    ces->loadScreens();
     unlockButtons(false);
 
 }
@@ -66,43 +69,21 @@ void MainWindow::freqButtonPress() {
 }
 
 void MainWindow::loadScreen(QWidget *w) {
+    ui->screenHolderWidget->layout()->addWidget(w);
+    w->hide();
+}
+
+void MainWindow::selectScreen(QWidget *w) {
     if(w == nullptr) {
-        if(selectedScreen != nullptr) {
-            qDebug() << "here";
-            selectedScreen->hide();
-        }
-    }
-    else if(!selectedScreen){
-        selectedScreen = w;
-        ui->screenHolderWidget->layout()->addWidget(selectedScreen);
+        if(selectedScreen) selectedScreen->hide();
     }
     else {
+        if(selectedScreen) selectedScreen->hide();
+        selectedScreen = w;
         selectedScreen->show();
     }
 }
 
-/**
- * void MainWindow::setTime(int nextTime) {
-    QString previousLabel = QString::number((selectedTime == TWENTY) ? 20 : (selectedTime == FOURTY) ? 40 : 60);
-    QString selectedLabel = QString::number((nextTime == TWENTY) ? 20 : (nextTime == FOURTY) ? 40 : 60);
-    timerLabels[nextTime]->setText
-            ("<html><head/><body><p align=\"center\">"
-             "<span style=\" font-size:14pt; color:#1b1b1b; text-decoration: underline;\">" +
-             selectedLabel +
-             "</span>""</p></body></html>");
-    ui->clockLabel->setText
-            ("<html><head/>"
-             "<body><p align=\"right\"><span style=\" font-size:48pt; color:#1b1b1b;\">"
-             + selectedLabel + ":00"
-             "</span></p></body></html>"
-            );
-    //selectedTime = nextTime;
-}
-**/
-
-/**
- * @brief MainWindow::initialize
- */
 void MainWindow::unlockButtons(bool onStatus) {
     //Disable/Enable buttons
     ui->upButton->setEnabled(onStatus);

@@ -34,5 +34,6 @@ private slots:
     void waveButtonPress();
     void freqButtonPress();
     void loadScreen(QWidget *);
+    void selectScreen(QWidget *w = nullptr);
 };
 #endif // MAINWINDOW_H
