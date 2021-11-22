@@ -2,10 +2,15 @@
 
 CES::CES(QObject *parent) : QObject(parent)
 {
-    powerStatus = false;
     mainScreen = new MainScreenWidget;
     logScreen = new LoggingWidget;
-    selectedScreen = mainScreen;
+    //add function pointers to vector
+    funcs.append(&CES::setTime);
+    funcs.append(&CES::setAmperage);
+    funcs.append(&CES::setWave);
+    funcs.append(&CES::setFrequency);
+
+    selectedScreen = nullptr;
 }
 
 int CES::time() const {return selectedTime;}
@@ -35,12 +40,17 @@ void CES::setWave(int w) {
 
 void CES::loadScreens() {
     emit loadScreen(mainScreen);
-    //emit loadScreen(logScreen);
+}
+
+void CES::changeValue(int setIndex, int val) {
+    if(isLocked || !powerStatus) return;
+    (this->*funcs[setIndex])(val);
 }
 
 void CES::togglePower() {
     powerStatus = !powerStatus;
     if(powerStatus) {
+        isLocked = false;
         setTime(SIXTY);
         setWave(ALPHA);
         setFrequency(POINT_FIVE);
@@ -53,4 +63,11 @@ void CES::togglePower() {
     emit unlockButtons(powerStatus);
 }
 
+void CES::toggleClipStatus() {
+    clipStatus = !clipStatus;
+}
+
+void CES::toggleLock() {
+    isLocked = !isLocked;
+}
 

@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QWidget *selectedScreen = nullptr;
+    QWidget *selectedScreen;
     CES *ces;
 
 
@@ -33,6 +33,7 @@ private slots:
     void downButtonPress();
     void waveButtonPress();
     void freqButtonPress();
+    void toggleButtonPress();
     void loadScreen(QWidget *);
     void selectScreen(QWidget *w = nullptr);
 };

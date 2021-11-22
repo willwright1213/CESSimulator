@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->downButton, &QPushButton::pressed, this, &MainWindow::downButtonPress);
     connect(ui->frequencyButton, &QPushButton::pressed, this, &MainWindow::freqButtonPress);
     connect(ui->waveFormButton, &QPushButton::pressed, this, &MainWindow::waveButtonPress);
+    connect(ui->toggleButton, &QPushButton::pressed, this, &MainWindow::toggleButtonPress);
     connect(ces, &CES::unlockButtons, this, &MainWindow::unlockButtons);
     connect(ces, &CES::loadScreen, this, &MainWindow::loadScreen);
     connect(ces, &CES::selectScreen, this, &MainWindow::selectScreen);
@@ -49,23 +50,28 @@ void MainWindow::powerButtonPress() {
 
 
 void MainWindow::timeButtonPress() {
-    ces->setTime((ces->time() + 1) % 3);
+    ces->changeValue(TIME,(ces->time() + 1) % 3);
 }
 
 void MainWindow::upButtonPress() {
-    ces->setAmperage(ces->amps() < 500 ? ces->amps() + 50 : 500);
+    ces->changeValue(AMP, ces->amps() < 500 ? ces->amps() + 50 : 500);
 }
 
 void MainWindow::downButtonPress() {
-    ces->setAmperage(ces->amps() > 0 ? ces->amps() - 50 : 0);
+   ces->changeValue(AMP, ces->amps() > 0 ? ces->amps() - 50 : 0);
 }
 
 void MainWindow::waveButtonPress() {
-    ces->setWave((ces->wave() + 1) % 3);
+    ces->changeValue(WAVE, (ces->wave() + 1) % 3);
 }
 
 void MainWindow::freqButtonPress() {
-    ces->setFrequency((ces->freq() + 1) % 3);
+    ces->changeValue(FREQ, (ces->freq() + 1) % 3);
+}
+
+
+void MainWindow::toggleButtonPress() {
+    ces->toggleClipStatus();
 }
 
 void MainWindow::loadScreen(QWidget *w) {
@@ -74,13 +80,10 @@ void MainWindow::loadScreen(QWidget *w) {
 }
 
 void MainWindow::selectScreen(QWidget *w) {
-    if(w == nullptr) {
-        if(selectedScreen) selectedScreen->hide();
-    }
-    else {
-        if(selectedScreen) selectedScreen->hide();
-        selectedScreen = w;
-        selectedScreen->show();
+    if(ces->selectedScreen) ces->selectedScreen->hide();
+    if(w) {
+        ces->selectedScreen = w;
+        ces->selectedScreen->show();
     }
 }
 
@@ -89,7 +92,7 @@ void MainWindow::unlockButtons(bool onStatus) {
     ui->upButton->setEnabled(onStatus);
     ui->downButton->setEnabled(onStatus);
     ui->timerButton->setEnabled(onStatus);
-    ui->lockButton->setEnabled(onStatus);
+    //ui->lockButton->setEnabled(onStatus);
     ui->frequencyButton->setEnabled(onStatus);
     ui->waveFormButton->setEnabled(onStatus);
     ui->recordButton->setEnabled(onStatus);
