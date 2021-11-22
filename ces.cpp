@@ -13,10 +13,10 @@ CES::CES(QObject *parent) : QObject(parent)
     selectedScreen = nullptr;
 }
 
-int CES::time() const {return selectedTime;}
-int CES::wave() const {return selectedWave;}
-int CES::freq() const {return selectedFreq;}
-int CES::amps() const {return microAmps;}
+int CES::time() const & {return selectedTime;}
+int CES::wave() const & {return selectedWave;}
+int CES::freq() const & {return selectedFreq;}
+int CES::amps() const & {return microAmps;}
 
 void CES::setTime(int newTime) {
     selectedTime = newTime;

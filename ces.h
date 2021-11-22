@@ -33,10 +33,10 @@ private:
 
 public:
     QPointer<QWidget> selectedScreen;
-    int time() const;
-    int wave() const;
-    int freq() const;
-    int amps() const;
+    int time() const &;
+    int wave() const &;
+    int freq() const &;
+    int amps() const &;
     void changeValue(int setIndex, int val);
     void togglePower();
     void toggleClipStatus();
