@@ -1,11 +1,14 @@
 #include "ces.h"
 
-CES::CES(QObject *parent) : QObject(parent)
+CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
 {
     mainScreen = new MainScreenWidget;
     logScreen = new LoggingWidget;
-    //add function pointers to vector
-    funcs.append(&CES::setTime);
+    mainScreen->hide();
+    logScreen->hide();
+    screen->addWidget(mainScreen);
+    screen->addWidget(logScreen);
+    funcs.append(&CES::setStartTime);
     funcs.append(&CES::setAmperage);
     funcs.append(&CES::setWave);
     funcs.append(&CES::setFrequency);
@@ -18,8 +21,14 @@ int CES::wave() const & {return selectedWave;}
 int CES::freq() const & {return selectedFreq;}
 int CES::amps() const & {return microAmps;}
 
-void CES::setTime(int newTime) {
-    selectedTime = newTime;
+void CES::setTime(int secs) {
+    timer = secs;
+    mainScreen->updateClock(timer);
+}
+
+void CES::setStartTime(int timeIndex){
+    selectedTime = timeIndex;
+    timer = (timeIndex * 20 + 20) * 60;
     mainScreen->updateTimeUi(selectedTime);
 }
 
@@ -38,9 +47,14 @@ void CES::setWave(int w) {
     mainScreen->updateWaveUi(selectedWave);
 }
 
-void CES::loadScreens() {
-    emit loadScreen(mainScreen);
+void CES::setScreen(QWidget *w) {
+    if(selectedScreen) selectedScreen->hide();
+    if(w) {
+        selectedScreen = w;
+        selectedScreen->show();
+    }
 }
+
 
 void CES::changeValue(int setIndex, int val) {
     if(isLocked || !powerStatus) return;
@@ -51,16 +65,15 @@ void CES::togglePower() {
     powerStatus = !powerStatus;
     if(powerStatus) {
         isLocked = false;
-        setTime(SIXTY);
+        setStartTime(SIXTY);
         setWave(ALPHA);
         setFrequency(POINT_FIVE);
         setAmperage(0);
-        emit selectScreen(mainScreen);
+        setScreen(mainScreen);
     }
     else {
-        emit selectScreen();
+        setScreen();
     }
-    emit unlockButtons(powerStatus);
 }
 
 void CES::toggleClipStatus() {

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QPointer>
+#include <QLayout>
 #include "mainscreenwidget.h"
 #include "loggingwidget.h"
 
@@ -16,12 +17,13 @@ class CES : public QObject
 {
     Q_OBJECT
 public:
-    explicit CES(QObject *parent = nullptr);
+    explicit CES(QLayout *screen, QObject *parent = nullptr);
     typedef  void (CES::*FuncP)(int);
 private:
     bool isLocked = true;
     bool powerStatus = false;
     bool clipStatus = false;
+    int timer;
     int selectedTime;
     int selectedWave;
     int selectedFreq;
@@ -29,7 +31,12 @@ private:
     MainScreenWidget *mainScreen;
     LoggingWidget *logScreen;
     QVector<void (CES::*)(int)> funcs;
-
+    void setTime(int);
+    void setStartTime(int);
+    void setAmperage(int);
+    void setFrequency(int);
+    void setWave(int);
+    void setScreen(QWidget *w = nullptr);
 
 public:
     QPointer<QWidget> selectedScreen;
@@ -41,22 +48,14 @@ public:
     void togglePower();
     void toggleClipStatus();
     void toggleLock();
-    void loadScreens();
 
-private:
-    void setTime(int);
-    void setAmperage(int);
-    void setFrequency(int);
-    void setWave(int);
 
 signals:
     void updateTimeUi(int);
     void updateWaveUi(int);
     void updateFreqUi(int);
     void updateAmpUi(int);
-    void unlockButtons(bool);
-    void loadScreen(QWidget *screen = nullptr);
-    void selectScreen(QWidget *screen = nullptr);
+
 
 public slots:
 

@@ -23,9 +23,6 @@ private:
     CES *ces;
 
 
-public slots:
-    void unlockButtons(bool);
-
 private slots:
     void powerButtonPress();
     void timeButtonPress();
@@ -34,7 +31,5 @@ private slots:
     void waveButtonPress();
     void freqButtonPress();
     void toggleButtonPress();
-    void loadScreen(QWidget *);
-    void selectScreen(QWidget *w = nullptr);
 };
 #endif // MAINWINDOW_H

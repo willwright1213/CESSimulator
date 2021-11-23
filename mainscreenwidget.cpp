@@ -31,15 +31,20 @@ MainScreenWidget::MainScreenWidget(QWidget *parent) :
 }
 
 void MainScreenWidget::updateTimeUi(int t) {
-    //clear previous selected time
+    int secs = (t * 20 + 20) * 60;
     for(int i=0; i < timerLabels.size(); ++i) {
         timerLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 10pt;");
     }
     // set new selected time and update gui
-    QString clockLabel = QString::number(t * 20 + 20) + ":00";
-    ui->clockLabel_3->setText(clockLabel);
-    ui->clockLabel_3->setStyleSheet("color: #1b1b1b; font-size: 48pt;");
     timerLabels[t]->setStyleSheet("color: #1b1b1b; font-size: 14pt; text-decoration: underline;");
+    updateClock(secs);
+
+}
+
+void MainScreenWidget::updateClock(int secs) {
+    QString mString = QString::number(secs / 60).rightJustified(2, '0');
+    QString sString = QString::number(secs % 60).rightJustified(2, '0');
+    ui->clockLabel->setText(mString + ":" + sString);
 }
 
 void MainScreenWidget::updateAmpUi(int a) {

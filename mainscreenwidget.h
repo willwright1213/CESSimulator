@@ -26,6 +26,7 @@ public slots:
     void updateWaveUi(int);
     void updateFreqUi(int);
     void updateAmpUi(int);
+    void updateClock(int);
 
 private:
     Ui::MainScreenWidget *ui;

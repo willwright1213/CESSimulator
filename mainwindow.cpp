@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     //blank sreen widget stuff
-    ces = new CES;
+    ces = new CES(ui->screenHolderWidget->layout());
     //initialize timerLabels vector
 
     //connect signals
@@ -23,12 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->frequencyButton, &QPushButton::pressed, this, &MainWindow::freqButtonPress);
     connect(ui->waveFormButton, &QPushButton::pressed, this, &MainWindow::waveButtonPress);
     connect(ui->toggleButton, &QPushButton::pressed, this, &MainWindow::toggleButtonPress);
-    connect(ces, &CES::unlockButtons, this, &MainWindow::unlockButtons);
-    connect(ces, &CES::loadScreen, this, &MainWindow::loadScreen);
-    connect(ces, &CES::selectScreen, this, &MainWindow::selectScreen);
-
-    ces->loadScreens();
-    unlockButtons(false);
 
 }
 
@@ -74,27 +68,3 @@ void MainWindow::toggleButtonPress() {
     ces->toggleClipStatus();
 }
 
-void MainWindow::loadScreen(QWidget *w) {
-    ui->screenHolderWidget->layout()->addWidget(w);
-    w->hide();
-}
-
-void MainWindow::selectScreen(QWidget *w) {
-    if(ces->selectedScreen) ces->selectedScreen->hide();
-    if(w) {
-        ces->selectedScreen = w;
-        ces->selectedScreen->show();
-    }
-}
-
-void MainWindow::unlockButtons(bool onStatus) {
-    //Disable/Enable buttons
-    ui->upButton->setEnabled(onStatus);
-    ui->downButton->setEnabled(onStatus);
-    ui->timerButton->setEnabled(onStatus);
-    //ui->lockButton->setEnabled(onStatus);
-    ui->frequencyButton->setEnabled(onStatus);
-    ui->waveFormButton->setEnabled(onStatus);
-    ui->recordButton->setEnabled(onStatus);
-    ui->logButton->setEnabled(onStatus);
-}
