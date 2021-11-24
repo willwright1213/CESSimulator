@@ -19,6 +19,7 @@ public:
     QVector<QLabel *> freqLabels;
     QVector<QLabel *> waveLabels;
     QVector<QWidget *> bars;
+    QLabel *clockLabel() const;
     ~MainScreenWidget();
 
 public slots:
@@ -27,6 +28,7 @@ public slots:
     void updateFreqUi(int);
     void updateAmpUi(int);
     void updateClock(int);
+    void showLock(bool);
 
 private:
     Ui::MainScreenWidget *ui;

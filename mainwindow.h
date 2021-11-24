@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
 #include <QVector>
 #include <QLabel>
 #include "ces.h"
@@ -16,7 +17,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    CES * getCES() const;
+    QPushButton* powerButton() const;
+    QPushButton* upButton() const;
+    QPushButton* downButton() const;
+    QPushButton* timerButton() const;
+    QPushButton* waveButton() const;
+    QPushButton* frequencyButton() const;
+    QPushButton* lockButton() const;
+    QPushButton*  clipperButton() const;
 private:
     Ui::MainWindow *ui;
     QWidget *selectedScreen;
@@ -30,6 +39,7 @@ private slots:
     void downButtonPress();
     void waveButtonPress();
     void freqButtonPress();
-    void toggleButtonPress();
+    void clipperButtonPress();
+    void lockButtonPress();
 };
 #endif // MAINWINDOW_H

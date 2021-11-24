@@ -20,31 +20,39 @@ public:
     explicit CES(QLayout *screen, QObject *parent = nullptr);
     typedef  void (CES::*FuncP)(int);
 private:
-    bool isLocked = true;
+    bool isLocked = false;
     bool powerStatus = false;
     bool clipStatus = false;
-    int timer;
-    int selectedTime;
-    int selectedWave;
-    int selectedFreq;
-    int microAmps;
+    QPointer<QWidget> selectedScreen = nullptr;
+    uint16_t timer;
+    uint8_t selectedTime;
+    uint8_t selectedWave;
+    uint8_t selectedFreq;
+    uint16_t microAmps;
     MainScreenWidget *mainScreen;
     LoggingWidget *logScreen;
-    QVector<void (CES::*)(int)> funcs;
-    void setTime(int);
-    void setStartTime(int);
-    void setAmperage(int);
-    void setFrequency(int);
-    void setWave(int);
+    QVector<void (CES::*)(uint16_t)> funcs;
+    void setTime(uint16_t);
+    void setStartTime(uint16_t);
+    void setAmperage(uint16_t);
+    void setFrequency(uint16_t);
+    void setWave(uint16_t);
     void setScreen(QWidget *w = nullptr);
 
 public:
-    QPointer<QWidget> selectedScreen;
-    int time() const &;
-    int wave() const &;
-    int freq() const &;
-    int amps() const &;
-    void changeValue(int setIndex, int val);
+    uint8_t getStartTime() const &;
+    uint16_t getTime() const &;
+    uint8_t getWave() const &;
+    uint8_t getFreq() const &;
+    uint16_t getAmps() const &;
+    bool getPowerStatus() const &;
+    bool getClipStatus() const &;
+    bool getlockStatus() const &;
+    QPointer<QWidget> getSelectedScreen() const;
+    MainScreenWidget * getMainScreen() const;
+
+
+    void setValue(uint8_t, const uint16_t val);
     void togglePower();
     void toggleClipStatus();
     void toggleLock();

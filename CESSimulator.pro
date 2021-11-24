@@ -1,26 +1,31 @@
 QT       += core gui
+QT       += testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-
+CONFIG += testcase
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     ces.cpp \
+    cesexception.cpp \
     loggingwidget.cpp \
     main.cpp \
     mainscreenwidget.cpp \
     mainwindow.cpp \
+    testcases.cpp \
     timer.cpp
 
 HEADERS += \
     ces.h \
+    cesexception.h \
     loggingwidget.h \
-    mainscreenwidget.h \
     mainwindow.h \
+    mainscreenwidget.h \
+    testcases.h \
     timer.h
 
 FORMS += \

@@ -30,6 +30,10 @@ MainScreenWidget::MainScreenWidget(QWidget *parent) :
     freqLabels.append(ui->freq3);
 }
 
+QLabel * MainScreenWidget::clockLabel() const {
+    return ui->clockLabel;
+}
+
 void MainScreenWidget::updateTimeUi(int t) {
     int secs = (t * 20 + 20) * 60;
     for(int i=0; i < timerLabels.size(); ++i) {
@@ -50,8 +54,10 @@ void MainScreenWidget::updateClock(int secs) {
 void MainScreenWidget::updateAmpUi(int a) {
     int count = a / 50;
     for(int i=0; i < bars.size(); ++i) {
-        if(i < count) bars[i]->setStyleSheet("background:  #1b1b1b;");
-        else bars[i]->setStyleSheet("border: 1px solid #1b1b1b;");
+        if(i < count)
+            bars[i]->setStyleSheet("background:  #1b1b1b;");
+        else
+            bars[i]->setStyleSheet("border: 1px solid #1b1b1b;");
     }
 }
 
@@ -69,6 +75,12 @@ void MainScreenWidget::updateWaveUi(int w) {
     waveLabels[w]->setStyleSheet("color: #1b1b1b; font-size: 10pt; text-decoration: underline;");
 }
 
+void MainScreenWidget::showLock(bool show) {
+    if(show)
+        ui->lockIcon->setStyleSheet("border-image: url(:/images/icons8-lock-24.png)");
+    else
+        ui->lockIcon->setStyleSheet("");
+}
 
 MainScreenWidget::~MainScreenWidget()
 {

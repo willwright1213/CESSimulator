@@ -1,7 +1,11 @@
-#include "mainwindow.h"
+#define TEST 0
 
+#ifdef TEST
+#include "testcases.h"
+QTEST_MAIN(TestCases);
+#else
 #include <QApplication>
-#include <QFile>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,3 +16,4 @@ int main(int argc, char *argv[])
     return a.exec();
 
 }
+#endif
