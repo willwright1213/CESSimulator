@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 
+
 /**
  * @brief MainWindow::MainWindow
  * @param parent
@@ -14,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     //blank sreen widget stuff
     ces = new CES(ui->screenHolderWidget->layout());
     //initialize timerLabels vector
-
     //connect signals
     connect(ui->powerButton, &QPushButton::pressed, this, &MainWindow::powerButtonPress);
     connect(ui->timerButton, &QPushButton::pressed, this, &MainWindow::timeButtonPress);
@@ -24,12 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->waveFormButton, &QPushButton::pressed, this, &MainWindow::waveButtonPress);
     connect(ui->clipperButton, &QPushButton::pressed, this, &MainWindow::clipperButtonPress);
     connect(ui->lockButton, &QPushButton::pressed, this, &MainWindow::lockButtonPress);
-
+    connect(ui->logButton, &QPushButton::pressed, this, &MainWindow::logButtonPress);
+    connect(ui->recordButton, &QPushButton::pressed, this, &MainWindow::recordButtonPress);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete ces;
 }
 
 QPushButton* MainWindow::powerButton() const {return ui->powerButton;}
@@ -53,7 +55,8 @@ CES * MainWindow::getCES() const {return ces;}
  * Sends a request to the CES to set the value of time.
  */
 void MainWindow::timeButtonPress() {
-    ces->setValue(TIME,(ces->getStartTime() + 1) % 3);
+    ces->setValue(START_TIME,(ces->getStartTime() + 1) % 3);
+    //if(clockTimer) clockTimer->stop();
 }
 
 /*!
@@ -102,6 +105,10 @@ void MainWindow::powerButtonPress() {
  */
 void MainWindow::clipperButtonPress() {
     ces->toggleClipStatus();
+    if(ces->getClipStatus()) {
+        //clockTimer = new Timer(ces, CLOCK);
+        //QThreadPool::globalInstance()->start(clockTimer);
+    }
 }
 
 /*!
@@ -110,4 +117,12 @@ void MainWindow::clipperButtonPress() {
  */
 void MainWindow::lockButtonPress() {
     ces->toggleLock();
+}
+
+void MainWindow::logButtonPress() {
+    ces->showLogScreen();
+}
+
+void MainWindow::recordButtonPress() {
+
 }

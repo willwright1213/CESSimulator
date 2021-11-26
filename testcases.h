@@ -30,6 +30,8 @@ private slots:
     void waveUiTest();
     void freqUiTest();
     void amperageOverloadTest();
+    void startPauseClockTest();
+    void clockUpdatesUiTest();
 };
 
 #endif // TESTCASES_H

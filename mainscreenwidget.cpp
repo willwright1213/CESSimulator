@@ -37,7 +37,7 @@ QLabel * MainScreenWidget::clockLabel() const {
 void MainScreenWidget::updateTimeUi(int t) {
     int secs = (t * 20 + 20) * 60;
     for(int i=0; i < timerLabels.size(); ++i) {
-        timerLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 10pt;");
+        timerLabels[i]->setStyleSheet("color: #bfbfbf; font-size: 14pt;");
     }
     // set new selected time and update gui
     timerLabels[t]->setStyleSheet("color: #1b1b1b; font-size: 14pt; text-decoration: underline;");

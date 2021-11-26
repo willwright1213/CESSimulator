@@ -12,8 +12,9 @@ class MainScreenWidget;
 class MainScreenWidget : public QWidget
 {
     Q_OBJECT
-
-public:
+friend class TestCases;
+friend class CES;
+private:
     explicit MainScreenWidget(QWidget *parent = nullptr);
     QVector<QLabel *> timerLabels;
     QVector<QLabel *> freqLabels;

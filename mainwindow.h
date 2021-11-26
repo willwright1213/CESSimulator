@@ -13,7 +13,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+friend class TestCases;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -41,5 +41,7 @@ private slots:
     void freqButtonPress();
     void clipperButtonPress();
     void lockButtonPress();
+    void logButtonPress();
+    void recordButtonPress();
 };
 #endif // MAINWINDOW_H

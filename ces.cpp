@@ -1,9 +1,13 @@
 #include "ces.h"
 #include "cesexception.h"
 #include <QDebug>
+#include <QThreadPool>
+
+typedef void (*fptr)();
 
 CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
 {
+
     mainScreen = new MainScreenWidget;
     logScreen = new LoggingWidget;
     mainScreen->hide();
@@ -15,6 +19,20 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     funcs.append(&CES::setAmperage);
     funcs.append(&CES::setWave);
     funcs.append(&CES::setFrequency);
+    funcs.append(&CES::setTime);
+
+    clockTimer = new Timer(CLOCK);
+    QThreadPool::globalInstance()->start(clockTimer);
+
+    connect(clockTimer, &Timer::reqDecrementClock, this, &CES::decrementClock);
+    connect(this, &CES::stopClock, clockTimer, &Timer::stop);
+    connect(this, &CES::startClock, clockTimer, &Timer::start);
+    connect(this, &CES::pauseClock, clockTimer, &Timer::pause);
+
+}
+
+CES::~CES() {
+    emit stopClock();
 }
 
 /*!
@@ -52,6 +70,7 @@ void CES::setStartTime(uint16_t timeIndex){
     if(timeIndex > 2) throw IllegalValueException();
     selectedTime = timeIndex;
     timer = (timeIndex * 20 + 20) * 60;
+    clockTimer->setTimer(timer);
     mainScreen->updateTimeUi(selectedTime);
 }
 
@@ -117,7 +136,7 @@ void CES::setScreen(QWidget *w) {
     \param val - the value to set
  */
 void CES::setValue(uint8_t setIndex, uint16_t val) {
-    if (setIndex > 3) throw IllegalValueException();
+    if (setIndex > 4) throw IllegalValueException();
     if(isLocked || !powerStatus) return;
     (this->*funcs[setIndex])(val);
 }
@@ -137,14 +156,18 @@ void CES::togglePower() {
         setFrequency(POINT_FIVE);
         setAmperage(0);
         setScreen(mainScreen);
+        if(clipStatus) emit startClock();
     }
     else {
+        emit pauseClock();
         setScreen();
     }
 }
 
 void CES::toggleClipStatus() {
     clipStatus = !clipStatus;
+    if(clipStatus) emit startClock();
+    else emit pauseClock();
 }
 
 void CES::toggleLock() {
@@ -152,3 +175,12 @@ void CES::toggleLock() {
     mainScreen->showLock(isLocked);
 }
 
+void CES::showLogScreen() {
+    if(!powerStatus) return;
+    if(selectedScreen != logScreen)
+        setScreen(logScreen);
+    else
+        setScreen(mainScreen);
+}
+
+void CES::decrementClock() { setTime(timer - 1); }

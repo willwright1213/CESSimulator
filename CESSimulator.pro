@@ -16,6 +16,7 @@ SOURCES += \
     main.cpp \
     mainscreenwidget.cpp \
     mainwindow.cpp \
+    recording.cpp \
     testcases.cpp \
     timer.cpp
 
@@ -25,6 +26,7 @@ HEADERS += \
     loggingwidget.h \
     mainwindow.h \
     mainscreenwidget.h \
+    recording.h \
     testcases.h \
     timer.h
 

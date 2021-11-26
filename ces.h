@@ -4,20 +4,26 @@
 #include <QObject>
 #include <QPointer>
 #include <QLayout>
+#include <QThread>
+#include "timer.h"
 #include "mainscreenwidget.h"
 #include "loggingwidget.h"
+#include "recording.h"
 
 typedef enum {TWENTY, FOURTY, SIXTY} SelectedTime;
 typedef enum {POINT_FIVE, SEVENTY_SEVEN, HUNDRED} selectedFrequency;
 typedef enum {ALPHA, BETA, GAMMA} SelectedWave;
-typedef enum {TIME, AMP, WAVE, FREQ} Setter;
+typedef enum {START_TIME, AMP, WAVE, FREQ, TIME} Setter;
 
 
 class CES : public QObject
 {
     Q_OBJECT
+    friend class MainScreenWidget;
+    friend class TestCases;
 public:
     explicit CES(QLayout *screen, QObject *parent = nullptr);
+    ~CES();
     typedef  void (CES::*FuncP)(int);
 private:
     bool isLocked = false;
@@ -29,9 +35,13 @@ private:
     uint8_t selectedWave;
     uint8_t selectedFreq;
     uint16_t microAmps;
+
+    Timer *clockTimer;
+
     MainScreenWidget *mainScreen;
     LoggingWidget *logScreen;
     QVector<void (CES::*)(uint16_t)> funcs;
+    QVector<Recording *> recordings;
     void setTime(uint16_t);
     void setStartTime(uint16_t);
     void setAmperage(uint16_t);
@@ -56,6 +66,7 @@ public:
     void togglePower();
     void toggleClipStatus();
     void toggleLock();
+    void showLogScreen();
 
 
 signals:
@@ -63,9 +74,13 @@ signals:
     void updateWaveUi(int);
     void updateFreqUi(int);
     void updateAmpUi(int);
+    void stopClock();
+    void startClock();
+    void pauseClock();
 
 
 public slots:
+    void decrementClock();
 
 };
 
