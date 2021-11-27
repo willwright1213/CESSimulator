@@ -82,6 +82,14 @@ void MainScreenWidget::showLock(bool show) {
         ui->lockIcon->setStyleSheet("");
 }
 
+void MainScreenWidget::showRecordIcon(bool show) {
+    if(show)
+        ui->recordIcon->setStyleSheet("border-image: url(:/images/rec.png)");
+    else
+        ui->recordIcon->setStyleSheet("");
+}
+
+
 MainScreenWidget::~MainScreenWidget()
 {
     delete ui;

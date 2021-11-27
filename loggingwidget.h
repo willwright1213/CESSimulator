@@ -3,9 +3,11 @@
 
 #include <QWidget>
 #include <QListWidgetItem>
+#include "recording.h"
 
-#define HEADER_FORMAT "%-10s%-15s%-15s%-25s%s"
-#define ROW_FORMAT  "%-2s%-13s%-18s%-17s%-12s%s"
+#define HEADER_FORMAT "%1%2%3%4%5"
+#define ROW_FORMAT  "%1%2%3%4%5%6"
+#define HEADER_LINE "\n-------------------------------------------------------------"
 
 namespace Ui {
 class LoggingWidget;
@@ -30,6 +32,7 @@ private:
     void moveUp();
     void moveDown();
     void choose();
+    void addToLogs(Recording *);
 };
 
 

@@ -21,6 +21,7 @@ private:
     QVector<QLabel *> waveLabels;
     QVector<QWidget *> bars;
     QLabel *clockLabel() const;
+
     ~MainScreenWidget();
 
 public slots:
@@ -30,6 +31,7 @@ public slots:
     void updateAmpUi(int);
     void updateClock(int);
     void showLock(bool);
+    void showRecordIcon(bool);
 
 private:
     Ui::MainScreenWidget *ui;

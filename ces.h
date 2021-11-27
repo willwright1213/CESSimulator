@@ -31,6 +31,7 @@ private:
     bool isLocked = false;
     bool powerStatus = false;
     bool clipStatus = false;
+    bool isRecording = false;
 
     uint16_t timer;
     uint8_t selectedTime;
@@ -55,6 +56,7 @@ private:
     void togglePower();
     void toggleClipStatus();
     void toggleLock();
+    void toggleRecording();
     void showLogScreen();
 
 

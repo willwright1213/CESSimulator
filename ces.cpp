@@ -32,6 +32,7 @@ void CES::setTime(uint16_t secs) {
     if (secs > MAX_TIME) throw IllegalValueException();
     timer = secs;
     mainScreen->updateClock(timer);
+    if(timer == 0) togglePower();
 }
 
 /*!
@@ -130,6 +131,11 @@ void CES::togglePower() {
     else {
         emit pauseClock();
         setScreen();
+        if(isRecording) {
+            recordings.append(new Recording(selectedTime,  selectedWave, selectedFreq, microAmps));
+            logScreen->addToLogs(recordings[recordings.size() -1]);
+            toggleRecording();
+        }
     }
 }
 
@@ -142,6 +148,11 @@ void CES::toggleClipStatus() {
 void CES::toggleLock() {
     isLocked = !isLocked;
     mainScreen->showLock(isLocked);
+}
+
+void CES::toggleRecording() {
+    isRecording = !isRecording;
+    mainScreen->showRecordIcon(isRecording);
 }
 
 void CES::showLogScreen() {
@@ -168,15 +179,20 @@ void CES::timeButtonPress() {
  * Sends a request to the CES to increase the value of amperage.
  */
 void CES::upButtonPress() {
-    setAmperage(microAmps < 500 ? microAmps + 50 : 500);
+    if(selectedScreen == mainScreen)
+        setAmperage(microAmps < 500 ? microAmps + 50 : 500);
+    if(selectedScreen == logScreen)
+        logScreen->moveUp();
 }
-
 /*!
  *
  * Sends a request to the CES to decrease the value of amperage.
  */
 void CES::downButtonPress() {
+if(selectedScreen == mainScreen)
    setAmperage(microAmps > 0 ? microAmps - 50 : 0);
+if(selectedScreen == logScreen)
+    logScreen->moveDown();
 }
 
 /*!
@@ -220,9 +236,18 @@ void CES::lockButtonPress() {
 }
 
 void CES::logButtonPress() {
-    showLogScreen();
+    if(selectedScreen == mainScreen) setScreen(logScreen);
+    else {
+        if(logScreen->selectedIndex != 0) {
+            setStartTime(recordings[logScreen->selectedIndex - 3]->selectedTime);
+            setAmperage(recordings[logScreen->selectedIndex - 3]->selectedAmps);
+            setWave(recordings[logScreen->selectedIndex - 3]->selectedWave);
+            setFrequency(recordings[logScreen->selectedIndex - 3]->selectedFreq);
+        }
+        setScreen(mainScreen);
+    }
 }
 
 void CES::recordButtonPress() {
-
+    toggleRecording();
 }

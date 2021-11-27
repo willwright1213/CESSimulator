@@ -13,5 +13,6 @@
         <file>images/power.png</file>
         <file>style.qss</file>
         <file>images/icons8-lock-24.png</file>
+        <file>images/rec.png</file>
     </qresource>
 </RCC>
