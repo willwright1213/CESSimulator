@@ -10,18 +10,18 @@ const int wave = QRandomGenerator::global()->bounded(3);
 const int freq = QRandomGenerator::global()->bounded(3);
 
 void TestCases::setValues() {
-    w->ces->setValue(AMP, amps);
-    w->ces->setValue(START_TIME, startTime);
-    w->ces->setValue(WAVE, wave);
-    w->ces->setValue(FREQ, freq);
+    w->ces->setAmperage(amps);
+    w->ces->setStartTime(startTime);
+    w->ces->setWave(wave);
+    w->ces->setFrequency(freq);
 }
 
 void TestCases::initTestCase() {
     QThreadPool::globalInstance()->setMaxThreadCount(5);
     qDebug("==== Starting Test Cases ====");
     w = new MainWindow;
-    QVERIFY(w->ces->getPowerStatus() == false);
-    QVERIFY(w->ces->getSelectedScreen() == nullptr);
+    QVERIFY(w->ces->powerStatus == false);
+    QVERIFY(w->ces->selectedScreen == nullptr);
 }
 
 void TestCases::init() {
@@ -34,8 +34,8 @@ void TestCases::cleanup() {
 
 
 void TestCases::cleanupTestCase() {
-    QVERIFY(w->ces->getPowerStatus() == false);
-    QVERIFY(w->ces->getSelectedScreen() == nullptr);
+    QVERIFY(w->ces->powerStatus == false);
+    QVERIFY(w->ces->selectedScreen == nullptr);
     delete w;
 }
 
@@ -43,13 +43,13 @@ void TestCases::cleanupTestCase() {
  * Checks if the CES starts as off and initialize values correctly
  */
 void TestCases::defaultStateTest() {
-    QVERIFY(w->ces->getPowerStatus() == true);
-    QVERIFY(w->ces->getSelectedScreen() == w->getCES()->getMainScreen());
-    QVERIFY(w->ces->getStartTime() == 2);
-    QVERIFY(w->ces->getTime() == 3600);
-    QVERIFY(w->ces->getFreq() == 0);
-    QVERIFY(w->ces->getWave() == 0);
-    QVERIFY(w->ces->getAmps() == 0);
+    QVERIFY(w->ces->powerStatus == true);
+    QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
+    QVERIFY(w->ces->selectedTime == 2);
+    QVERIFY(w->ces->timer == 3600);
+    QVERIFY(w->ces->selectedFreq == 0);
+    QVERIFY(w->ces->selectedWave == 0);
+    QVERIFY(w->ces->microAmps == 0);
 }
 
 /*!
@@ -64,31 +64,31 @@ void TestCases::resetToDefaultTest() {
 
 void TestCases::ampButtonPressTest() {
     emit w->upButton()->pressed();
-    QVERIFY(w->getCES()->getAmps() == 50);
+    QVERIFY(w->ces->microAmps == 50);
     emit w->downButton()->pressed();
     emit w->downButton()->pressed();
-    QVERIFY(w->getCES()->getAmps() == 0);
-    w->getCES()->setValue(AMP, 500);
+    QVERIFY(w->ces->microAmps == 0);
+    w->ces->setAmperage(500);
     emit w->upButton()->pressed();
-    QVERIFY(w->getCES()->getAmps() == 500);
+    QVERIFY(w->ces->microAmps == 500);
 }
 
 void TestCases::timerButtonPressTest() {
-    int st = w->getCES()->getStartTime();
+    int st = w->ces->selectedTime;
     emit w->timerButton()->pressed();
-    QVERIFY(w->getCES()->getStartTime() == (st + 1) % 3);
+    QVERIFY(w->ces->selectedTime == (st + 1) % 3);
 }
 
 void TestCases::waveButtonPressTest() {
-    int wa = w->getCES()->getWave();
+    int wa = w->ces->selectedWave;
     emit w->waveButton()->pressed();
-    QVERIFY(w->getCES()->getWave() == (wa + 1) % 3);
+    QVERIFY(w->ces->selectedWave == (wa + 1) % 3);
 }
 
 void TestCases::freqButtonPressTest() {
-    int f = w->ces->getFreq();
+    int f = w->ces->selectedFreq;
     emit w->frequencyButton()->pressed();
-    QVERIFY(w->ces->getFreq() == (f + 1) % 3);
+    QVERIFY(w->ces->selectedFreq == (f + 1) % 3);
 }
 
 void TestCases::startTimeUiTest() {
@@ -165,5 +165,5 @@ void TestCases::clockUpdatesUiTest() {
 }
 
 void TestCases::amperageOverloadTest() {
-    QVERIFY_EXCEPTION_THROWN(w->getCES()->setValue(AMP, 750), AmperageOverloadException);
+    QVERIFY_EXCEPTION_THROWN(w->ces->setAmperage(750), AmperageOverloadException);
 }

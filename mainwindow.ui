@@ -56,7 +56,8 @@ border-radius: 5px;</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background:rgb(202, 196, 196)</string>
+          <string notr="true">background:rgb(202, 196, 196);
+border-radius: 0px;</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">

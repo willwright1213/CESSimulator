@@ -17,7 +17,14 @@ friend class TestCases;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    CES * getCES() const;
+private:
+    Ui::MainWindow *ui;
+    QWidget *selectedScreen;
+    CES *ces;
+
+
+    /* Below is only necessary for testing purposes */
+
     QPushButton* powerButton() const;
     QPushButton* upButton() const;
     QPushButton* downButton() const;
@@ -26,22 +33,6 @@ public:
     QPushButton* frequencyButton() const;
     QPushButton* lockButton() const;
     QPushButton*  clipperButton() const;
-private:
-    Ui::MainWindow *ui;
-    QWidget *selectedScreen;
-    CES *ces;
 
-
-private slots:
-    void powerButtonPress();
-    void timeButtonPress();
-    void upButtonPress();
-    void downButtonPress();
-    void waveButtonPress();
-    void freqButtonPress();
-    void clipperButtonPress();
-    void lockButtonPress();
-    void logButtonPress();
-    void recordButtonPress();
 };
 #endif // MAINWINDOW_H

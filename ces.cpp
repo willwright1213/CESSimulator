@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <QThreadPool>
 
-typedef void (*fptr)();
 
 CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
 {
@@ -14,12 +13,6 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     logScreen->hide();
     screen->addWidget(mainScreen);
     screen->addWidget(logScreen);
-
-    funcs.append(&CES::setStartTime);
-    funcs.append(&CES::setAmperage);
-    funcs.append(&CES::setWave);
-    funcs.append(&CES::setFrequency);
-    funcs.append(&CES::setTime);
 
     clockTimer = new Timer(CLOCK);
     QThreadPool::globalInstance()->start(clockTimer);
@@ -35,27 +28,8 @@ CES::~CES() {
     emit stopClock();
 }
 
-/*!
-    \return selectedTime's label index.
- */
-uint8_t CES::getStartTime() const & {return selectedTime;}
-uint16_t CES::getTime() const & {return timer;}
-uint8_t CES::getWave() const & {return selectedWave;}
-uint8_t CES::getFreq() const & {return selectedFreq;}
-uint16_t CES::getAmps() const & {return microAmps;}
-bool CES::getPowerStatus() const & {return powerStatus;}
-bool CES::getClipStatus() const & {return clipStatus;}
-bool CES::getlockStatus() const & {return isLocked;}
-QPointer<QWidget> CES::getSelectedScreen() const { return selectedScreen;}
-MainScreenWidget * CES::getMainScreen() const {return mainScreen;}
-/*!
- * \brief sets the Timer and updates the main screen's Clock
- * \param secs  - the time in seconds
-
-    The accepted values are [0-3600]
- */
 void CES::setTime(uint16_t secs) {
-    if (secs > 3600) throw IllegalValueException();
+    if (secs > MAX_TIME) throw IllegalValueException();
     timer = secs;
     mainScreen->updateClock(timer);
 }
@@ -80,8 +54,8 @@ void CES::setStartTime(uint16_t timeIndex){
     [0-500] in increments of 50.
  */
 void CES::setAmperage(uint16_t a) {
-    if(a > 700) throw AmperageOverloadException();
-    if(a % 50 != 0) throw IllegalValueException();
+    if(a > OVERLOAD_AMP_LIMIT) throw AmperageOverloadException();
+    if(a % 50 != 0 || a > MAX_AMPERAGE) throw IllegalValueException();
     microAmps = a;
     mainScreen->updateAmpUi(a);
 }
@@ -135,11 +109,6 @@ void CES::setScreen(QWidget *w) {
     \param setIndex - the function index (see enum Setter)
     \param val - the value to set
  */
-void CES::setValue(uint8_t setIndex, uint16_t val) {
-    if (setIndex > 4) throw IllegalValueException();
-    if(isLocked || !powerStatus) return;
-    (this->*funcs[setIndex])(val);
-}
 
 /*!
     \brief toggles the power status of the CES
@@ -184,3 +153,76 @@ void CES::showLogScreen() {
 }
 
 void CES::decrementClock() { setTime(timer - 1); }
+
+/*!
+ *
+ * Sends a request to the CES to set the value of time.
+ */
+void CES::timeButtonPress() {
+    setStartTime((selectedTime + 1) % 3);
+    //if(clockTimer) clockTimer->stop();
+}
+
+/*!
+ *
+ * Sends a request to the CES to increase the value of amperage.
+ */
+void CES::upButtonPress() {
+    setAmperage(microAmps < 500 ? microAmps + 50 : 500);
+}
+
+/*!
+ *
+ * Sends a request to the CES to decrease the value of amperage.
+ */
+void CES::downButtonPress() {
+   setAmperage(microAmps > 0 ? microAmps - 50 : 0);
+}
+
+/*!
+ *
+ * Sends a request to the CES to change the value of wave.
+ */
+void CES::waveButtonPress() {
+    setWave((selectedWave + 1) % 3);
+}
+
+/*!
+ *
+ * Sends a request to the CES to decrease the value of frequency.
+ */
+void CES::freqButtonPress() {
+    setFrequency((selectedFreq + 1) % 3);
+}
+
+/*!
+ *
+ * Sends a request to the CES to toggle the power status.
+ */
+void CES::powerButtonPress() {
+    togglePower();
+}
+
+/*!
+ *
+ * Sends a request to the CES to toggle the clip status.
+ */
+void CES::clipperButtonPress() {
+    toggleClipStatus();
+}
+
+/*!
+ *
+ * Sends a request to the CES to toggle the lock status.
+ */
+void CES::lockButtonPress() {
+    toggleLock();
+}
+
+void CES::logButtonPress() {
+    showLogScreen();
+}
+
+void CES::recordButtonPress() {
+
+}
