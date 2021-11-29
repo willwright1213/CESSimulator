@@ -42,7 +42,8 @@ QPushButton* MainWindow::waveButton() const {return ui->waveFormButton;}
 QPushButton* MainWindow::frequencyButton() const {return ui->frequencyButton;}
 QPushButton* MainWindow::lockButton() const {return ui->lockButton;}
 QPushButton* MainWindow::clipperButton() const {return ui->clipperButton;}
-
+QPushButton* MainWindow::recordButton() const {return ui->recordButton;}
+QPushButton* MainWindow::logButton() const {return ui->logButton;}
 /* slots starts here */
 
 /**

@@ -20,7 +20,7 @@ private:
     QVector<QLabel *> freqLabels;
     QVector<QLabel *> waveLabels;
     QVector<QWidget *> bars;
-    QLabel *clockLabel() const;
+
 
     ~MainScreenWidget();
 
@@ -33,8 +33,13 @@ public slots:
     void showLock(bool);
     void showRecordIcon(bool);
 
+
 private:
     Ui::MainScreenWidget *ui;
+    //for test purpose
+    QLabel *clockLabel() const;
+    QWidget *lockIcon() const;
+    QWidget *recIcon() const;
 };
 
 #endif // MAINSCREENWIDGET_H

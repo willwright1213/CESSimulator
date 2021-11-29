@@ -84,31 +84,25 @@ border-radius: 0px;</string>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
-       <widget class="QWidget" name="recordIcon" native="true">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>24</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="recordIcon" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
       </widget>
      </item>
     </layout>

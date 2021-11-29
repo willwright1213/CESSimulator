@@ -14,17 +14,19 @@ class Timer : public QObject, public QRunnable
     friend class TestCases;
     friend class CES;
 public:
-    Timer(TimerType t);
+    Timer(int ms, int startTime = 0);
     void run() override;
-    void resetClock(int t) {clockReset = true; countDown = t;}
     void setTimer(int t) { if(!isPaused) clockReset = true; countDown = t;}
 private:
-    bool clockReset;
+    bool clockReset = false;
     bool isRunning = true;
     bool isPaused = true;
+    bool countDownFinished = true;
+    int msecs;
     TimerType type;
     int countDown = 0;
     void startClock();
+    void idleCheck();
 
 private slots:
     void stop();
@@ -32,6 +34,8 @@ private slots:
     void pause();
 signals:
     void reqDecrementClock();
+    void tick();
+    void end();
 
 };
 

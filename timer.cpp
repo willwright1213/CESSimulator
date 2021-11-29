@@ -4,24 +4,24 @@
 #include "cesexception.h"
 #include <QThread>
 
-Timer::Timer(TimerType t):
-    type(t)
+Timer::Timer(int ms, int startTime):
+    msecs(ms),countDown(startTime)
 {
 
 }
 
 void Timer::run() {
-    if(type == CLOCK)
-        startClock();
+    startClock();
 }
 
 void Timer::startClock(){
     while(isRunning) {
         while(countDown > 0) {
+            countDownFinished = false;
             while(isPaused) {
                 if(!isRunning) return;
             }
-            QTime oneSec = QTime::currentTime().addMSecs(10);
+            QTime oneSec = QTime::currentTime().addMSecs(msecs);
             while (QTime::currentTime() < oneSec) {
                 if(clockReset || isPaused) break;
                 if(!isRunning) return;
@@ -31,12 +31,12 @@ void Timer::startClock(){
                 clockReset = false;
                 continue;
             }
-            try {
-                emit reqDecrementClock();
-            } catch(IllegalValueException &e) {
-                qDebug() << "hey";
-                return;
-            }
+            emit tick();
+            countDown--;
+        }
+        if(!countDownFinished) {
+            emit end();
+            countDownFinished = true;
         }
     }
 }

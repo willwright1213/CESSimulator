@@ -44,6 +44,7 @@ private:
     QWidget* selectedScreen = nullptr;
 
     Timer *clockTimer;
+    Timer *idleTimer;
 
     QVector<Recording *> recordings;
 
@@ -53,11 +54,11 @@ private:
     void setFrequency(uint16_t);
     void setWave(uint16_t);
     void setScreen(QWidget *w = nullptr);
-    void togglePower();
     void toggleClipStatus();
     void toggleLock();
     void toggleRecording();
     void showLogScreen();
+
 
 
 signals:
@@ -82,6 +83,8 @@ public slots:
     void lockButtonPress();
     void logButtonPress();
     void recordButtonPress();
+    void togglePower();
+    void forceShutDown();
 };
 
 #endif // CES_H

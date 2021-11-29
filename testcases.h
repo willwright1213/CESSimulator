@@ -29,9 +29,13 @@ private slots:
     void ampUiTest();
     void waveUiTest();
     void freqUiTest();
+    void lockUiTest();
+    void recUiTest();
+    void lockTest();
     void amperageOverloadTest();
     void startPauseClockTest();
     void clockUpdatesUiTest();
+    void testIdleTimer();
 };
 
 #endif // TESTCASES_H

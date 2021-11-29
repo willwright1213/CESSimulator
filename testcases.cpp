@@ -34,8 +34,8 @@ void TestCases::cleanup() {
 
 
 void TestCases::cleanupTestCase() {
-    QVERIFY(w->ces->powerStatus == false);
-    QVERIFY(w->ces->selectedScreen == nullptr);
+   // QVERIFY(w->ces->powerStatus == false);
+   // QVERIFY(w->ces->selectedScreen == nullptr);
     delete w;
 }
 
@@ -50,6 +50,8 @@ void TestCases::defaultStateTest() {
     QVERIFY(w->ces->selectedFreq == 0);
     QVERIFY(w->ces->selectedWave == 0);
     QVERIFY(w->ces->microAmps == 0);
+    QVERIFY(w->ces->isLocked == false);
+    QVERIFY(w->ces->isRecording == false);
 }
 
 /*!
@@ -57,6 +59,7 @@ void TestCases::defaultStateTest() {
  */
 void TestCases::resetToDefaultTest() {
     setValues();
+    w->ces->toggleLock();
     w->ces->togglePower();
     w->ces->togglePower();
     defaultStateTest();
@@ -148,22 +151,57 @@ void TestCases::freqUiTest() {
 
 void TestCases::startPauseClockTest() {
     QVERIFY2(w->ces->clockTimer->isPaused && !w->ces->clipStatus, "Clock is not running if clip status is off");
-    w->ces->toggleClipStatus();
+    emit w->clipperButton()->pressed();
     QVERIFY2(!w->ces->clockTimer->isPaused && w->ces->clipStatus, "Clock is running when clipper is on");
-    w->ces->togglePower();
+    emit w->powerButton()->pressed();
     QVERIFY2(w->ces->clockTimer->isPaused, "clock is paused when power is off");
-    w->ces->togglePower();
+    emit w->powerButton()->pressed();
     QVERIFY2(!w->ces->clockTimer->isPaused && w->ces->clipStatus, "clock resumes when power turns on");
-    w->ces->toggleClipStatus();
+    emit w->clipperButton()->pressed();
 }
 
 void TestCases::clockUpdatesUiTest() {
-    w->ces->toggleClipStatus();
+    emit w->clipperButton()->pressed();
     int t1 = w->ces->timer;
     QTRY_VERIFY_WITH_TIMEOUT(t1 != w->ces->timer, 10);
-    w->ces->toggleClipStatus();
+    emit w->clipperButton()->pressed();
 }
 
 void TestCases::amperageOverloadTest() {
-    QVERIFY_EXCEPTION_THROWN(w->ces->setAmperage(750), AmperageOverloadException);
+    w->ces->setAmperage(750);
+    QVERIFY2(!w->ces->powerStatus, "amperage overload shutdown");
+    emit w->powerButton()->pressed();
+}
+
+void TestCases::testIdleTimer() {
+    w->ces->idleTimer->setTimer(60);
+    QTRY_VERIFY_WITH_TIMEOUT(!w->ces->powerStatus, 600);
+    emit w->powerButton()->pressed();
+}
+
+void TestCases::lockUiTest() {
+    QVERIFY(w->ces->mainScreen->lockIcon()->styleSheet() == "");
+    emit w->lockButton()->pressed();
+    QVERIFY(w->ces->mainScreen->lockIcon()->styleSheet() == "border-image: url(:/images/icons8-lock-24.png)");
+}
+
+void TestCases::recUiTest() {
+    QVERIFY(w->ces->mainScreen->recIcon()->styleSheet() == "");
+    emit w->recordButton()->pressed();
+    QVERIFY(w->ces->mainScreen->recIcon()->styleSheet() == "border-image: url(:/images/rec.png)");
+    emit w->recordButton()->pressed();
+}
+
+void TestCases::lockTest() {
+    qDebug() << w->ces->selectedTime;
+    emit w->lockButton()->pressed();
+    emit w->timerButton()->pressed();
+    emit w->waveButton()->pressed();
+    emit w->upButton()->pressed();
+    emit w->frequencyButton()->pressed();
+    emit w->recordButton()->pressed();
+    emit w->logButton()->pressed();
+    emit w->lockButton()->pressed();
+    defaultStateTest();
+    QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
 }

@@ -30,9 +30,9 @@ MainScreenWidget::MainScreenWidget(QWidget *parent) :
     freqLabels.append(ui->freq3);
 }
 
-QLabel * MainScreenWidget::clockLabel() const {
-    return ui->clockLabel;
-}
+QLabel * MainScreenWidget::clockLabel() const {return ui->clockLabel;}
+QWidget * MainScreenWidget::lockIcon() const{return ui->lockIcon;}
+QWidget * MainScreenWidget::recIcon() const{return ui->recordIcon;}
 
 void MainScreenWidget::updateTimeUi(int t) {
     int secs = (t * 20 + 20) * 60;

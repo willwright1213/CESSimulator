@@ -14,25 +14,32 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     screen->addWidget(mainScreen);
     screen->addWidget(logScreen);
 
-    clockTimer = new Timer(CLOCK);
-    QThreadPool::globalInstance()->start(clockTimer);
+    clockTimer = new Timer(10, 3600);
+    idleTimer = new Timer(10, 1800);
 
-    connect(clockTimer, &Timer::reqDecrementClock, this, &CES::decrementClock);
+    QThreadPool::globalInstance()->start(clockTimer);
+    QThreadPool::globalInstance()->start(idleTimer);
+
+    connect(clockTimer, &Timer::tick, this, &CES::decrementClock);
+    connect(clockTimer, &Timer::end, this, &CES::togglePower);
+
+    connect(idleTimer, &Timer::end, this, &CES::forceShutDown);
+
     connect(this, &CES::stopClock, clockTimer, &Timer::stop);
     connect(this, &CES::startClock, clockTimer, &Timer::start);
     connect(this, &CES::pauseClock, clockTimer, &Timer::pause);
+
 
 }
 
 CES::~CES() {
     emit stopClock();
+    idleTimer->stop();
 }
 
 void CES::setTime(uint16_t secs) {
-    if (secs > MAX_TIME) throw IllegalValueException();
     timer = secs;
     mainScreen->updateClock(timer);
-    if(timer == 0) togglePower();
 }
 
 /*!
@@ -55,9 +62,8 @@ void CES::setStartTime(uint16_t timeIndex){
     [0-500] in increments of 50.
  */
 void CES::setAmperage(uint16_t a) {
-    if(a > OVERLOAD_AMP_LIMIT) throw AmperageOverloadException();
-    if(a % 50 != 0 || a > MAX_AMPERAGE) throw IllegalValueException();
     microAmps = a;
+    if(a > OVERLOAD_AMP_LIMIT) {forceShutDown(); return;}
     mainScreen->updateAmpUi(a);
 }
 
@@ -126,10 +132,15 @@ void CES::togglePower() {
         setFrequency(POINT_FIVE);
         setAmperage(0);
         setScreen(mainScreen);
-        if(clipStatus) emit startClock();
+        if(clipStatus) clockTimer->start();
+        if(microAmps > OVERLOAD_AMP_LIMIT) forceShutDown();
+        idleTimer->setTimer(1800);
+        idleTimer->start();
     }
     else {
-        emit pauseClock();
+        idleTimer->pause();
+        clockTimer->pause();
+        if(isLocked) toggleLock();
         setScreen();
         if(isRecording) {
             recordings.append(new Recording(selectedTime,  selectedWave, selectedFreq, microAmps));
@@ -139,10 +150,22 @@ void CES::togglePower() {
     }
 }
 
+/*!
+ * \brief shutdown that doesn't save recording info.
+ */
+void CES::forceShutDown() {
+    powerStatus = false;
+    clockTimer->pause();
+    idleTimer->pause();
+    if(isLocked) toggleLock();
+    if(isRecording) toggleRecording();
+    setScreen();
+}
+
 void CES::toggleClipStatus() {
     clipStatus = !clipStatus;
-    if(clipStatus) emit startClock();
-    else emit pauseClock();
+    if(clipStatus) clockTimer->start();
+    else clockTimer->pause();
 }
 
 void CES::toggleLock() {
@@ -156,7 +179,6 @@ void CES::toggleRecording() {
 }
 
 void CES::showLogScreen() {
-    if(!powerStatus) return;
     if(selectedScreen != logScreen)
         setScreen(logScreen);
     else
@@ -170,6 +192,8 @@ void CES::decrementClock() { setTime(timer - 1); }
  * Sends a request to the CES to set the value of time.
  */
 void CES::timeButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked || selectedScreen != mainScreen) return;
     setStartTime((selectedTime + 1) % 3);
     //if(clockTimer) clockTimer->stop();
 }
@@ -179,6 +203,8 @@ void CES::timeButtonPress() {
  * Sends a request to the CES to increase the value of amperage.
  */
 void CES::upButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked) return;
     if(selectedScreen == mainScreen)
         setAmperage(microAmps < 500 ? microAmps + 50 : 500);
     if(selectedScreen == logScreen)
@@ -189,10 +215,12 @@ void CES::upButtonPress() {
  * Sends a request to the CES to decrease the value of amperage.
  */
 void CES::downButtonPress() {
-if(selectedScreen == mainScreen)
-   setAmperage(microAmps > 0 ? microAmps - 50 : 0);
-if(selectedScreen == logScreen)
-    logScreen->moveDown();
+    idleTimer->setTimer(1800);
+    if(isLocked) return;
+    if(selectedScreen == mainScreen)
+       setAmperage(microAmps > 0 ? microAmps - 50 : 0);
+    else if(selectedScreen == logScreen)
+        logScreen->moveDown();
 }
 
 /*!
@@ -200,6 +228,8 @@ if(selectedScreen == logScreen)
  * Sends a request to the CES to change the value of wave.
  */
 void CES::waveButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked || selectedScreen != mainScreen) return;
     setWave((selectedWave + 1) % 3);
 }
 
@@ -208,6 +238,8 @@ void CES::waveButtonPress() {
  * Sends a request to the CES to decrease the value of frequency.
  */
 void CES::freqButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked || selectedScreen != mainScreen) return;
     setFrequency((selectedFreq + 1) % 3);
 }
 
@@ -225,6 +257,11 @@ void CES::powerButtonPress() {
  */
 void CES::clipperButtonPress() {
     toggleClipStatus();
+    if(clipStatus) {
+        idleTimer->setTimer(1800);
+        idleTimer->pause();
+    }
+    else {idleTimer->start();}
 }
 
 /*!
@@ -232,10 +269,14 @@ void CES::clipperButtonPress() {
  * Sends a request to the CES to toggle the lock status.
  */
 void CES::lockButtonPress() {
+    idleTimer->setTimer(1800);
+    if(selectedScreen != mainScreen) return;
     toggleLock();
 }
 
 void CES::logButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked) return;
     if(selectedScreen == mainScreen) setScreen(logScreen);
     else {
         if(logScreen->selectedIndex != 0) {
@@ -249,5 +290,7 @@ void CES::logButtonPress() {
 }
 
 void CES::recordButtonPress() {
+    idleTimer->setTimer(1800);
+    if(isLocked || selectedScreen != mainScreen) return;
     toggleRecording();
 }

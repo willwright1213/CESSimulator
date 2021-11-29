@@ -1,4 +1,4 @@
-//#define TEST 0
+#define TEST 0
 
 #ifdef TEST
 #include "testcases.h"
@@ -10,7 +10,6 @@ QTEST_MAIN(TestCases);
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     MainWindow w;
     w.show();
     return a.exec();

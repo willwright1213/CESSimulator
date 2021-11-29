@@ -33,6 +33,8 @@ private:
     QPushButton* frequencyButton() const;
     QPushButton* lockButton() const;
     QPushButton*  clipperButton() const;
+    QPushButton* recordButton() const;
+    QPushButton* logButton() const;
 
 };
 #endif // MAINWINDOW_H
