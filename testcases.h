@@ -36,6 +36,8 @@ private slots:
     void startPauseClockTest();
     void clockUpdatesUiTest();
     void testIdleTimer();
+    void recordingTest();
+    void loadRecordingTest();
 };
 
 #endif // TESTCASES_H

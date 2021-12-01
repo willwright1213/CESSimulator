@@ -3,6 +3,7 @@
 #include "testcases.h"
 #include "cesexception.h"
 #include <QThread>
+
 /* Global variables used to randomize selection for test case */
 const int amps = QRandomGenerator::global()->bounded(11) * 50;
 const int startTime = QRandomGenerator::global()->bounded(3);
@@ -163,7 +164,7 @@ void TestCases::startPauseClockTest() {
 void TestCases::clockUpdatesUiTest() {
     emit w->clipperButton()->pressed();
     int t1 = w->ces->timer;
-    QTRY_VERIFY_WITH_TIMEOUT(t1 != w->ces->timer, 10);
+    QTRY_VERIFY_WITH_TIMEOUT(t1 != w->ces->timer, 100);
     emit w->clipperButton()->pressed();
 }
 
@@ -204,4 +205,26 @@ void TestCases::lockTest() {
     emit w->lockButton()->pressed();
     defaultStateTest();
     QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
+}
+
+void TestCases::recordingTest() {
+    setValues();
+    w->ces->setTime(10);
+    emit w->recordButton()->pressed();
+    emit w->ces->clockTimer->end();
+    QTRY_VERIFY_WITH_TIMEOUT(w->ces->recordings.size() == 1, 100);
+    emit w->powerButton()->pressed();
+
+}
+
+void TestCases::loadRecordingTest() {
+    emit w->logButton()->pressed();
+    QVERIFY(w->ces->selectedScreen == w->ces->logScreen);
+    emit w->downButton()->pressed();
+    emit w->logButton()->pressed();
+    QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
+    QVERIFY(w->ces->selectedTime == startTime);
+    QVERIFY(w->ces->microAmps == amps);
+    QVERIFY(w->ces->selectedWave == wave);
+    QVERIFY(w->ces->selectedFreq == freq);
 }
