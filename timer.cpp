@@ -1,7 +1,6 @@
 #include "timer.h"
 #include <QTime>
 #include <QDebug>
-#include "cesexception.h"
 #include <QThread>
 
 Timer::Timer(int ms, int startTime):

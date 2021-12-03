@@ -55,6 +55,17 @@ border-radius: 0px;</string>
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="batteryPower">
+       <property name="styleSheet">
+        <string notr="true">font-size: 10pt;
+color: #1b1b1b;</string>
+       </property>
+       <property name="text">
+        <string>100%</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_12">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

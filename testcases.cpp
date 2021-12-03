@@ -1,8 +1,6 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include "testcases.h"
-#include "cesexception.h"
-#include <QThread>
 
 /* Global variables used to randomize selection for test case */
 const int amps = QRandomGenerator::global()->bounded(11) * 50;
@@ -19,7 +17,6 @@ void TestCases::setValues() {
 
 void TestCases::initTestCase() {
     QThreadPool::globalInstance()->setMaxThreadCount(5);
-    qDebug("==== Starting Test Cases ====");
     w = new MainWindow;
     QVERIFY(w->ces->powerStatus == false);
     QVERIFY(w->ces->selectedScreen == nullptr);
@@ -50,7 +47,7 @@ void TestCases::defaultStateTest() {
     QVERIFY(w->ces->timer == 3600);
     QVERIFY(w->ces->selectedFreq == 0);
     QVERIFY(w->ces->selectedWave == 0);
-    QVERIFY(w->ces->microAmps == 0);
+    QVERIFY(w->ces->selectedAmp == 0);
     QVERIFY(w->ces->isLocked == false);
     QVERIFY(w->ces->isRecording == false);
 }
@@ -68,13 +65,13 @@ void TestCases::resetToDefaultTest() {
 
 void TestCases::ampButtonPressTest() {
     emit w->upButton()->pressed();
-    QVERIFY(w->ces->microAmps == 50);
+    QVERIFY(w->ces->selectedAmp == 50);
     emit w->downButton()->pressed();
     emit w->downButton()->pressed();
-    QVERIFY(w->ces->microAmps == 0);
+    QVERIFY(w->ces->selectedAmp == 0);
     w->ces->setAmperage(500);
     emit w->upButton()->pressed();
-    QVERIFY(w->ces->microAmps == 500);
+    QVERIFY(w->ces->selectedAmp == 500);
 }
 
 void TestCases::timerButtonPressTest() {
@@ -169,7 +166,7 @@ void TestCases::clockUpdatesUiTest() {
 }
 
 void TestCases::amperageOverloadTest() {
-    w->ces->setAmperage(750);
+    w->ces->setAmperage(701);
     QVERIFY2(!w->ces->powerStatus, "amperage overload shutdown");
     emit w->powerButton()->pressed();
 }
@@ -224,7 +221,7 @@ void TestCases::loadRecordingTest() {
     emit w->logButton()->pressed();
     QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
     QVERIFY(w->ces->selectedTime == startTime);
-    QVERIFY(w->ces->microAmps == amps);
+    QVERIFY(w->ces->selectedAmp == amps);
     QVERIFY(w->ces->selectedWave == wave);
     QVERIFY(w->ces->selectedFreq == freq);
 }

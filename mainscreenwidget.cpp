@@ -89,6 +89,9 @@ void MainScreenWidget::showRecordIcon(bool show) {
         ui->recordIcon->setStyleSheet("");
 }
 
+void MainScreenWidget::updateBatteryLifeUi(int value) {
+    ui->batteryPower->setText(QString::number(value)+"%");
+}
 
 MainScreenWidget::~MainScreenWidget()
 {

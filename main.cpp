@@ -1,4 +1,4 @@
-#define TEST 0
+//#define TEST 0
 
 #ifdef TEST
 #include "testcases.h"

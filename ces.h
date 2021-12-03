@@ -18,7 +18,6 @@ constexpr int MAX_AMPERAGE = 500;
 constexpr int OVERLOAD_AMP_LIMIT = 700;
 constexpr int MAX_TIME = 3600;
 
-
 class CES : public QObject
 {
     Q_OBJECT
@@ -33,11 +32,13 @@ private:
     bool clipStatus = false;
     bool isRecording = false;
 
-    uint16_t timer;
-    uint8_t selectedTime;
-    uint8_t selectedWave;
-    uint8_t selectedFreq;
-    uint16_t microAmps;
+    int timer;
+    int selectedTime;
+    int selectedWave;
+    int selectedFreq;
+    int selectedAmp;
+
+    float batteryLife = 100.00;
 
     MainScreenWidget *mainScreen;
     LoggingWidget *logScreen;
@@ -45,20 +46,21 @@ private:
 
     Timer *clockTimer;
     Timer *idleTimer;
+    Timer *batteryTimer;
+    Timer *contactTimer;
 
     QVector<Recording *> recordings;
 
-    void setTime(uint16_t);
-    void setStartTime(uint16_t);
-    void setAmperage(uint16_t);
-    void setFrequency(uint16_t);
-    void setWave(uint16_t);
+    void setTime(int);
+    void setStartTime(int);
+    void setAmperage(int);
+    void setFrequency(int);
+    void setWave(int);
     void setScreen(QWidget *w = nullptr);
     void toggleClipStatus();
     void toggleLock();
     void toggleRecording();
     void showLogScreen();
-
 
 
 signals:
@@ -72,7 +74,7 @@ signals:
 
 
 public slots:
-    void decrementClock();
+
     void powerButtonPress();
     void timeButtonPress();
     void upButtonPress();
@@ -84,7 +86,13 @@ public slots:
     void logButtonPress();
     void recordButtonPress();
     void togglePower();
-    void forceShutDown();
+
+    //slots that handles timers
+    void decrementClock();
+    void decrementBattery();
+    void shutDown();
+    void bootUp();
+
 };
 
 #endif // CES_H

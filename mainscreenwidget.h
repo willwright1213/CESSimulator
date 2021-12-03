@@ -24,7 +24,7 @@ private:
 
     ~MainScreenWidget();
 
-public slots:
+public:
     void updateTimeUi(int);
     void updateWaveUi(int);
     void updateFreqUi(int);
@@ -32,7 +32,7 @@ public slots:
     void updateClock(int);
     void showLock(bool);
     void showRecordIcon(bool);
-
+    void updateBatteryLifeUi(int);
 
 private:
     Ui::MainScreenWidget *ui;

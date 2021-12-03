@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += testlib
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,7 +12,6 @@ CONFIG += testcase
 
 SOURCES += \
     ces.cpp \
-    cesexception.cpp \
     loggingwidget.cpp \
     main.cpp \
     mainscreenwidget.cpp \
@@ -22,7 +22,6 @@ SOURCES += \
 
 HEADERS += \
     ces.h \
-    cesexception.h \
     loggingwidget.h \
     mainwindow.h \
     mainscreenwidget.h \
@@ -41,4 +40,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    images.qrc
+    images.qrc \
+    sound.qrc
