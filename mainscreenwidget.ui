@@ -50,7 +50,7 @@
        </property>
        <property name="styleSheet">
         <string notr="true">border-image: url(:/images/battery_5.png);
-border-radius: 0px;</string>
+</string>
        </property>
       </widget>
      </item>

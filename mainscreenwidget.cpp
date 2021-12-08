@@ -93,6 +93,12 @@ void MainScreenWidget::updateBatteryLifeUi(int value) {
     ui->batteryPower->setText(QString::number(value)+"%");
 }
 
+void MainScreenWidget::updateBatteryIconUi(int val) {
+    if (val < 0 || val > 5) return;
+    ui->batteryIcon->setStyleSheet("border-image: url(:/images/battery_"+QString::number(val)+".png);");
+}
+
+
 MainScreenWidget::~MainScreenWidget()
 {
     delete ui;

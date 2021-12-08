@@ -1,3 +1,28 @@
+/* ---------------------------------------------------------------------
+ * File: ces.h
+ * Published: 2021-12-10
+ *
+ * authors:
+ *      William Wright
+ *      Soorya Balaji
+ *      Anwar Kulane
+ *      Mahmoud sabaayon
+ *
+ * dependencies:
+        <QObject>
+        <QPointer>
+        <QLayout>
+        <QThread>
+        timer.h"
+        mainscreenwidget.h
+        loggingwidget.h
+        recording.h
+
+ * The CES class is the heart of the CES device and handles the therapy control and values of
+ * the device. The CES object is constructed by the MainWindow by passing a reference to its screen widget
+ * so that the CES can attach both the main screen and the logging screen to it.
+ * ----------------------------------------------------------------------
+ */
 #ifndef CES_H
 #define CES_H
 
@@ -92,6 +117,8 @@ public slots:
     void decrementBattery();
     void shutDown();
     void bootUp();
+    void setDefaultValues();
+    void endTherapy();
 
 };
 

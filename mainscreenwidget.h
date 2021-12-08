@@ -1,3 +1,22 @@
+/* ---------------------------------------------------------------------
+ * File: mainscreenwidget.h
+ * Published: 2021-12-10
+ *
+ * authors:
+ *      William Wright
+ *      Soorya Balaji
+ *      Anwar Kulane
+ *      Mahmoud sabaayon
+ *
+ * dependencies:
+        <QWidget>
+        <QLabel>
+        <QVector>
+
+ * The LoggingWidget class is a visual GUI for the therapy session and is the screen to show when power is set to on.
+ * It shows the set values and the time remaining for the therapy and handles functions that update the UI.
+ * ----------------------------------------------------------------------
+ */
 #ifndef MAINSCREENWIDGET_H
 #define MAINSCREENWIDGET_H
 
@@ -33,6 +52,7 @@ public:
     void showLock(bool);
     void showRecordIcon(bool);
     void updateBatteryLifeUi(int);
+    void updateBatteryIconUi(int);
 
 private:
     Ui::MainScreenWidget *ui;

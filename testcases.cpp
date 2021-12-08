@@ -16,7 +16,7 @@ void TestCases::setValues() {
 }
 
 void TestCases::initTestCase() {
-    QThreadPool::globalInstance()->setMaxThreadCount(5);
+    QThreadPool::globalInstance()->setMaxThreadCount(6);
     w = new MainWindow;
     QVERIFY(w->ces->powerStatus == false);
     QVERIFY(w->ces->selectedScreen == nullptr);
@@ -38,7 +38,7 @@ void TestCases::cleanupTestCase() {
 }
 
 /*!
- * Checks if the CES starts as off and initialize values correctly
+ * Checks if the CES is on and has initialized its values to default state
  */
 void TestCases::defaultStateTest() {
     QVERIFY(w->ces->powerStatus == true);
@@ -63,6 +63,9 @@ void TestCases::resetToDefaultTest() {
     defaultStateTest();
 }
 
+/*!
+ * checks that up and down button modifes the amperage
+ */
 void TestCases::ampButtonPressTest() {
     emit w->upButton()->pressed();
     QVERIFY(w->ces->selectedAmp == 50);
@@ -74,24 +77,36 @@ void TestCases::ampButtonPressTest() {
     QVERIFY(w->ces->selectedAmp == 500);
 }
 
+/*!
+ * checks that the timer button cycles through the 3 time options
+ */
 void TestCases::timerButtonPressTest() {
     int st = w->ces->selectedTime;
     emit w->timerButton()->pressed();
     QVERIFY(w->ces->selectedTime == (st + 1) % 3);
 }
 
+/*!
+ * checks that the wave button cycles through the 3 wave options
+ */
 void TestCases::waveButtonPressTest() {
     int wa = w->ces->selectedWave;
     emit w->waveButton()->pressed();
     QVERIFY(w->ces->selectedWave == (wa + 1) % 3);
 }
 
+/*!
+ * checks that the freq button cycles through the 3 frequency options
+ */
 void TestCases::freqButtonPressTest() {
     int f = w->ces->selectedFreq;
     emit w->frequencyButton()->pressed();
     QVERIFY(w->ces->selectedFreq == (f + 1) % 3);
 }
 
+/*!
+ * Verifies that the UI for startTime matches the selected time saved in the CES
+ */
 void TestCases::startTimeUiTest() {
     setValues();
     int secs = (startTime * 20 + 20) * 60; 
@@ -111,6 +126,9 @@ void TestCases::startTimeUiTest() {
     QVERIFY((w->ces->mainScreen->clockLabel()->text() == mString + ":" + sString));
 }
 
+/*!
+ * Verifies that the UI for the amperage level matches the selected amperage saved in the CES
+ */
 void TestCases::ampUiTest() {
     setValues();
     for(int i = 0; i < 10; i++) {
@@ -123,6 +141,9 @@ void TestCases::ampUiTest() {
     }
 }
 
+/*!
+ * Verifies that the UI for the select wave matches the selected wave saved in the CES
+ */
 void TestCases::waveUiTest() {
     setValues();
     for(int i = 0; i < 3; i ++) {
@@ -135,6 +156,9 @@ void TestCases::waveUiTest() {
     }
 }
 
+/*!
+ * Verifies that the UI for the select frequency matches the selected frequency saved in the CES
+ */
 void TestCases::freqUiTest() {
     setValues();
     for(int i = 0; i < 3; i ++) {
@@ -147,6 +171,12 @@ void TestCases::freqUiTest() {
     }
 }
 
+/*!
+ * Verifies that:
+ * 1. Timer starts when contact is established and power is on
+ * 2. Timer pauses when contact is established and power is off
+ * 3. Timer starts again when power is switch to on (following the state from above)
+ */
 void TestCases::startPauseClockTest() {
     QVERIFY2(w->ces->clockTimer->isPaused && !w->ces->clipStatus, "Clock is not running if clip status is off");
     emit w->clipperButton()->pressed();
@@ -158,6 +188,9 @@ void TestCases::startPauseClockTest() {
     emit w->clipperButton()->pressed();
 }
 
+/*!
+ * Verifies that the clock ui updates when the clockTimer starts
+ */
 void TestCases::clockUpdatesUiTest() {
     emit w->clipperButton()->pressed();
     int t1 = w->ces->timer;
@@ -165,24 +198,36 @@ void TestCases::clockUpdatesUiTest() {
     emit w->clipperButton()->pressed();
 }
 
+/*!
+ * Verifies that the system shuts down when amperage is over 700
+ */
 void TestCases::amperageOverloadTest() {
     w->ces->setAmperage(701);
     QVERIFY2(!w->ces->powerStatus, "amperage overload shutdown");
     emit w->powerButton()->pressed();
 }
 
+/*!
+ * verifies that the system shuts down if no action is taken
+ */
 void TestCases::testIdleTimer() {
     w->ces->idleTimer->setTimer(60);
-    QTRY_VERIFY_WITH_TIMEOUT(!w->ces->powerStatus, 600);
+    QTRY_VERIFY_WITH_TIMEOUT(!w->ces->powerStatus, 900);
     emit w->powerButton()->pressed();
 }
 
+/*!
+ * verifies that the ui reflects the lock status
+ */
 void TestCases::lockUiTest() {
     QVERIFY(w->ces->mainScreen->lockIcon()->styleSheet() == "");
     emit w->lockButton()->pressed();
     QVERIFY(w->ces->mainScreen->lockIcon()->styleSheet() == "border-image: url(:/images/icons8-lock-24.png)");
 }
 
+/*!
+ * verifies that the ui reflects the recording status
+ */
 void TestCases::recUiTest() {
     QVERIFY(w->ces->mainScreen->recIcon()->styleSheet() == "");
     emit w->recordButton()->pressed();
@@ -190,6 +235,9 @@ void TestCases::recUiTest() {
     emit w->recordButton()->pressed();
 }
 
+/*!
+ * verifies that options can't be modified if the system is locked
+ */
 void TestCases::lockTest() {
     qDebug() << w->ces->selectedTime;
     emit w->lockButton()->pressed();
@@ -204,6 +252,9 @@ void TestCases::lockTest() {
     QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
 }
 
+/*!
+ * verifies that recording options saves the options to the recordings vector
+ */
 void TestCases::recordingTest() {
     setValues();
     w->ces->setTime(10);
@@ -214,6 +265,9 @@ void TestCases::recordingTest() {
 
 }
 
+/*!
+ * verifies that recording options saves the options to the recordings vector
+ */
 void TestCases::loadRecordingTest() {
     emit w->logButton()->pressed();
     QVERIFY(w->ces->selectedScreen == w->ces->logScreen);

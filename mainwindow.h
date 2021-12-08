@@ -1,3 +1,24 @@
+/* ---------------------------------------------------------------------
+ * File: mainwindow.h
+ * Published: 2021-12-10
+ *
+ * authors:
+ *      William Wright
+ *      Soorya Balaji
+ *      Anwar Kulane
+ *      Mahmoud sabaayon
+ *
+ * dependencies:
+        <QMainWindow>
+        <QPushButton>
+        <QVector>
+        <QLabel>
+        ces.h
+
+ * The MainWindow class represents the physical casing of the simulation. Its functionality
+ * provide an interactive GUI to the user and send input to the CES object.
+ * ----------------------------------------------------------------------
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

@@ -1,7 +1,6 @@
 #include "ces.h"
 #include <QDebug>
 #include <QThreadPool>
-#include <QSound>
 
 
 CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
@@ -16,7 +15,7 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
 
     clockTimer = new Timer(10, 3600);
     idleTimer = new Timer(10, 1800);
-    batteryTimer = new Timer(1000, 196);
+    batteryTimer = new Timer(100, 196);
     contactTimer = new Timer(1000, 5);
 
     QThreadPool::globalInstance()->start(clockTimer);
@@ -25,7 +24,7 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     QThreadPool::globalInstance()->start(contactTimer);
 
     connect(clockTimer, &Timer::tick, this, &CES::decrementClock);
-    connect(clockTimer, &Timer::end, this, &CES::shutDown);
+    connect(clockTimer, &Timer::end, this, &CES::endTherapy);
 
     connect(batteryTimer, &Timer::tick, this, &CES::decrementBattery);
     connect(batteryTimer, &Timer::end, this, &CES::shutDown);
@@ -36,7 +35,7 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     connect(this, &CES::startClock, clockTimer, &Timer::start);
     connect(this, &CES::pauseClock, clockTimer, &Timer::pause);
 
-    connect(contactTimer, &Timer::end, this, &CES::bootUp);
+    connect(contactTimer, &Timer::end, this, &CES::setDefaultValues);
 
 
 }
@@ -99,6 +98,13 @@ void CES::setWave(int w) {
     mainScreen->updateWaveUi(selectedWave);
 }
 
+void CES::setDefaultValues() {
+    setStartTime(SIXTY);
+    setWave(ALPHA);
+    setFrequency(POINT_FIVE);
+    setAmperage(0);
+}
+
 /*!
     \brief Displays the given screen on the MainWindow
     \param w - the widget to be displayed.
@@ -127,16 +133,17 @@ void CES::setScreen(QWidget *w) {
 
 /*!
     \brief toggles the power status of the CES
-
-    If the status is toggled to on, initialize the default values and sets the screen to mainScreen
-    Ff status is toggled to off, unset the current screen on the MainWindow UI.
+    Calls shutDown() or bootUp() depending on the status of power
  */
 void CES::togglePower() {
     powerStatus ? shutDown() : bootUp();
 }
 
 /*!
- * \brief shutdown that doesn't save recording info.
+ * \brief shuts the system down:
+ * 1. sets power to false
+ * 2. pauses all timers
+ * 3. sets the screen to null
  */
 void CES::shutDown() {
     powerStatus = false;
@@ -147,26 +154,19 @@ void CES::shutDown() {
     contactTimer->setTimer(5);
     if(isLocked) toggleLock();
     setScreen();
-    if(isRecording) {
-        recordings.append(new Recording(selectedTime,  selectedWave, selectedFreq, selectedAmp));
-        logScreen->addToLogs(recordings[recordings.size() -1]);
-        toggleRecording();
-    }
 }
+
 
 void CES::bootUp() {
     if(batteryLife <= 0) return;
     powerStatus = true;
-    setStartTime(SIXTY);
-    setWave(ALPHA);
-    setFrequency(POINT_FIVE);
-    setAmperage(0);
+    setDefaultValues();
     setScreen(mainScreen);
     if(clipStatus) clockTimer->start();
-    if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
     idleTimer->setTimer(1800);
     idleTimer->start();
     if(clipStatus) batteryTimer->start();
+    if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
 }
 
 void CES::toggleClipStatus() {
@@ -175,16 +175,22 @@ void CES::toggleClipStatus() {
         contactTimer->pause();
         contactTimer->setTimer(5);
         clockTimer->start();
+        idleTimer->setTimer(1800);
+        idleTimer->pause();
+        if(powerStatus) batteryTimer->start();
     }
     else {
         clockTimer->pause();
         if(powerStatus) contactTimer->start();
+        idleTimer->start();
+        batteryTimer->pause();
     }
 }
 
 void CES::toggleLock() {
     isLocked = !isLocked;
     mainScreen->showLock(isLocked);
+
 }
 
 void CES::toggleRecording() {
@@ -201,12 +207,30 @@ void CES::showLogScreen() {
 
 void CES::decrementClock() { setTime(timer - 1); }
 
+void CES::endTherapy() {
+    if(isRecording) {
+        recordings.append(new Recording(selectedTime,  selectedWave, selectedFreq, selectedAmp));
+        logScreen->addToLogs(recordings[recordings.size() -1]);
+        toggleRecording();
+    }
+    shutDown();
+}
+
 void CES::decrementBattery() {
     batteryLife -= 0.5;
     mainScreen->updateBatteryLifeUi((int)batteryLife);
     qDebug() << batteryLife;
+    if(batteryLife == 80.0)
+        mainScreen->updateBatteryIconUi(4);
+    else if (batteryLife == 60.0)
+        mainScreen->updateBatteryIconUi(3);
+    else if (batteryLife == 40.0)
+        mainScreen->updateBatteryIconUi(2);
+    else if (batteryLife == 20.0)
+        mainScreen->updateBatteryIconUi(1);
     if(batteryLife == 5.0) {
-        QSound::play(":/lowBattery.wav");
+        //QSound::play(":/lowBattery.wav");
+        qDebug() << "low battery!";
     }
 }
 
@@ -280,12 +304,6 @@ void CES::powerButtonPress() {
  */
 void CES::clipperButtonPress() {
     toggleClipStatus();
-    if(clipStatus) {
-        idleTimer->setTimer(1800);
-        idleTimer->pause();
-        if(powerStatus) batteryTimer->start();
-    }
-    else {idleTimer->start(); batteryTimer->pause();}
 }
 
 /*!

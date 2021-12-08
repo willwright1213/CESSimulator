@@ -1,3 +1,22 @@
+/* ---------------------------------------------------------------------
+ * File: testcases.h
+ * Published: 2021-12-10
+ *
+ * authors:
+ *      William Wright
+ *      Soorya Balaji
+ *      Anwar Kulane
+ *      Mahmoud sabaayon
+ *
+ * dependencies:
+        <QWidget>
+        <QtTest/QtTest>
+        mainwindow.h
+
+ * The TestCases class is a series of test written to automate various test scenarios
+ * To make sure the system complies with the requirements
+ * ----------------------------------------------------------------------
+ */
 #ifndef TESTCASES_H
 #define TESTCASES_H
 
@@ -36,6 +55,9 @@ private slots:
     void startPauseClockTest();
     void clockUpdatesUiTest();
     void testIdleTimer();
+    //void resetIdleTimer();
+    //void batteryDrainTest()
+    //void batterySoundTest()
     void recordingTest();
     void loadRecordingTest();
 };

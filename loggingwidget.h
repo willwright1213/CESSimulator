@@ -1,3 +1,21 @@
+/* ---------------------------------------------------------------------
+ * File: loggingwidget.h
+ * Published: 2021-12-10
+ *
+ * authors:
+ *      William Wright
+ *      Soorya Balaji
+ *      Anwar Kulane
+ *      Mahmoud sabaayon
+ *
+ * dependencies:
+        <QWidget>
+        <QListWidgetItem>
+        recording.h
+
+ * The LoggingWidget class is a visual GUI for the saved recordings handled by the CES.
+ * ----------------------------------------------------------------------
+ */
 #ifndef LOGGINGWIDGET_H
 #define LOGGINGWIDGET_H
 
