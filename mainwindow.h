@@ -25,8 +25,10 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QVector>
+#include <QCheckBox>
 #include <QLabel>
 #include "ces.h"
+#include "debugconsole.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -42,6 +44,7 @@ private:
     Ui::MainWindow *ui;
     QWidget *selectedScreen;
     CES *ces;
+    DebugConsole *console = nullptr;
 
 
     /* Below is only necessary for testing purposes */
@@ -53,9 +56,12 @@ private:
     QPushButton* waveButton() const;
     QPushButton* frequencyButton() const;
     QPushButton* lockButton() const;
-    QPushButton*  clipperButton() const;
+    QCheckBox*  clipperButton() const;
     QPushButton* recordButton() const;
     QPushButton* logButton() const;
+
+private slots:
+    void openDebugConsole();
 
 };
 #endif // MAINWINDOW_H

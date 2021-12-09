@@ -13,6 +13,7 @@ class Timer : public QObject, public QRunnable
     Q_OBJECT
     friend class TestCases;
     friend class CES;
+    friend class DebugConsole;
 public:
     Timer(int ms, int startTime = 0);
     void run() override;

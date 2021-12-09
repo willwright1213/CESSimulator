@@ -14,8 +14,8 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
     screen->addWidget(logScreen);
 
     clockTimer = new Timer(10, 3600);
-    idleTimer = new Timer(10, 1800);
-    batteryTimer = new Timer(100, 196);
+    idleTimer = new Timer(1000, idleTime);
+    batteryTimer = new Timer(500, 196);
     contactTimer = new Timer(1000, 5);
 
     QThreadPool::globalInstance()->start(clockTimer);
@@ -72,7 +72,7 @@ void CES::setStartTime(int timeIndex){
  */
 void CES::setAmperage(int a) {
     selectedAmp = a;
-    if(a > OVERLOAD_AMP_LIMIT) {shutDown(); return;}
+    if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
     mainScreen->updateAmpUi(a);
 }
 
@@ -151,21 +151,24 @@ void CES::shutDown() {
     clockTimer->pause();
     batteryTimer->pause();
     contactTimer->pause();
-    contactTimer->setTimer(5);
+    contactTimer->setTimer(contactTime);
     if(isLocked) toggleLock();
     setScreen();
 }
 
 
 void CES::bootUp() {
-    if(batteryLife <= 0) return;
+    if(batteryLife <= 2) return;
     powerStatus = true;
     setDefaultValues();
     setScreen(mainScreen);
-    if(clipStatus) clockTimer->start();
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     idleTimer->start();
-    if(clipStatus) batteryTimer->start();
+    if(clipStatus) {
+        batteryTimer->start();
+        clockTimer->start();
+        if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
+    }
     if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
 }
 
@@ -173,11 +176,14 @@ void CES::toggleClipStatus() {
     clipStatus = !clipStatus;
     if(clipStatus) {
         contactTimer->pause();
-        contactTimer->setTimer(5);
+        contactTimer->setTimer(contactTime);
         clockTimer->start();
-        idleTimer->setTimer(1800);
+        idleTimer->setTimer(idleTime);
         idleTimer->pause();
-        if(powerStatus) batteryTimer->start();
+        if(powerStatus) {
+            batteryTimer->start();
+            if(selectedAmp > OVERLOAD_AMP_LIMIT) shutDown();
+        }
     }
     else {
         clockTimer->pause();
@@ -219,17 +225,8 @@ void CES::endTherapy() {
 void CES::decrementBattery() {
     batteryLife -= 0.5;
     mainScreen->updateBatteryLifeUi((int)batteryLife);
-    qDebug() << batteryLife;
-    if(batteryLife == 80.0)
-        mainScreen->updateBatteryIconUi(4);
-    else if (batteryLife == 60.0)
-        mainScreen->updateBatteryIconUi(3);
-    else if (batteryLife == 40.0)
-        mainScreen->updateBatteryIconUi(2);
-    else if (batteryLife == 20.0)
-        mainScreen->updateBatteryIconUi(1);
+    mainScreen->updateBatteryIconUi(batteryLife/20);
     if(batteryLife == 5.0) {
-        //QSound::play(":/lowBattery.wav");
         qDebug() << "low battery!";
     }
 }
@@ -239,7 +236,7 @@ void CES::decrementBattery() {
  * Sends a request to the CES to set the value of time.
  */
 void CES::timeButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked || selectedScreen != mainScreen) return;
     setStartTime((selectedTime + 1) % 3);
     //if(clockTimer) clockTimer->stop();
@@ -250,7 +247,7 @@ void CES::timeButtonPress() {
  * Sends a request to the CES to increase the value of amperage.
  */
 void CES::upButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked) return;
     if(selectedScreen == mainScreen)
         setAmperage(selectedAmp < 500 ? selectedAmp + 50 : 500);
@@ -262,7 +259,7 @@ void CES::upButtonPress() {
  * Sends a request to the CES to decrease the value of amperage.
  */
 void CES::downButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked) return;
     if(selectedScreen == mainScreen)
        setAmperage(selectedAmp > 0 ? selectedAmp - 50 : 0);
@@ -275,7 +272,7 @@ void CES::downButtonPress() {
  * Sends a request to the CES to change the value of wave.
  */
 void CES::waveButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked || selectedScreen != mainScreen) return;
     setWave((selectedWave + 1) % 3);
 }
@@ -285,7 +282,7 @@ void CES::waveButtonPress() {
  * Sends a request to the CES to decrease the value of frequency.
  */
 void CES::freqButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked || selectedScreen != mainScreen) return;
     setFrequency((selectedFreq + 1) % 3);
 }
@@ -311,13 +308,13 @@ void CES::clipperButtonPress() {
  * Sends a request to the CES to toggle the lock status.
  */
 void CES::lockButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(selectedScreen != mainScreen) return;
     toggleLock();
 }
 
 void CES::logButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked) return;
     if(selectedScreen == mainScreen) setScreen(logScreen);
     else {
@@ -332,7 +329,7 @@ void CES::logButtonPress() {
 }
 
 void CES::recordButtonPress() {
-    idleTimer->setTimer(1800);
+    idleTimer->setTimer(idleTime);
     if(isLocked || selectedScreen != mainScreen) return;
     toggleRecording();
 }

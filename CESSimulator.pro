@@ -11,6 +11,7 @@ CONFIG += testcase
 
 SOURCES += \
     ces.cpp \
+    debugconsole.cpp \
     loggingwidget.cpp \
     main.cpp \
     mainscreenwidget.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     ces.h \
+    debugconsole.h \
     loggingwidget.h \
     mainwindow.h \
     mainscreenwidget.h \
@@ -29,6 +31,7 @@ HEADERS += \
     timer.h
 
 FORMS += \
+    debugconsole.ui \
     loggingwidget.ui \
     mainscreenwidget.ui \
     mainwindow.ui

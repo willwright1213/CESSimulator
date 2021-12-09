@@ -265,6 +265,18 @@ border-radius: 0px;</string>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <item>
            <widget class="QPushButton" name="frequencyButton">
+            <property name="minimumSize">
+             <size>
+              <width>55</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="text">
              <string>frequency</string>
             </property>
@@ -288,8 +300,20 @@ border-radius: 0px;</string>
           </item>
           <item>
            <widget class="QPushButton" name="waveFormButton">
+            <property name="minimumSize">
+             <size>
+              <width>55</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="text">
-             <string>wave form</string>
+             <string>wave</string>
             </property>
            </widget>
           </item>
@@ -353,8 +377,20 @@ border-radius: 0px;</string>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <widget class="QPushButton" name="recordButton">
+            <property name="minimumSize">
+             <size>
+              <width>55</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="text">
-             <string>record</string>
+             <string>Record</string>
             </property>
            </widget>
           </item>
@@ -376,8 +412,20 @@ border-radius: 0px;</string>
           </item>
           <item>
            <widget class="QPushButton" name="logButton">
+            <property name="minimumSize">
+             <size>
+              <width>55</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
             <property name="text">
-             <string>recording's log</string>
+             <string>Logs</string>
             </property>
            </widget>
           </item>
@@ -403,27 +451,13 @@ border-radius: 0px;</string>
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="clipperButton">
-        <property name="minimumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
+       <widget class="QCheckBox" name="earCheckBox">
         <property name="styleSheet">
-         <string notr="true">border-image: url(:/images/play.png);</string>
+         <string notr="true">font-size: 12pt;
+color: #1b1b1b;</string>
         </property>
         <property name="text">
-         <string/>
+         <string>Ear Clip Connected</string>
         </property>
        </widget>
       </item>
@@ -453,6 +487,13 @@ border-radius: 0px;</string>
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="debugging">
+    <property name="title">
+     <string>Debugging</string>
+    </property>
+    <addaction name="manualSetValues"/>
+   </widget>
+   <addaction name="debugging"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -466,6 +507,11 @@ border-radius: 0px;</string>
     <bool>false</bool>
    </attribute>
   </widget>
+  <action name="manualSetValues">
+   <property name="text">
+    <string>Set Values</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
