@@ -122,6 +122,16 @@ void CES::setScreen(QWidget *w) {
 }
 
 /*!
+ * \brief CES::setBatteryLife for debugging purpse
+ * \param d the battery life
+ */
+void CES::setBatteryLife(double d) {
+    batteryLife = d;
+    batteryTimer->setTimer((batteryLife * 2) - 4);
+
+}
+
+/*!
     \brief a public function called by the MainWindow to change values
     in the CES
     \param setIndex - the function index (see enum Setter)
@@ -171,6 +181,7 @@ void CES::bootUp() {
 
 void CES::toggleClipStatus() {
     clipStatus = !clipStatus;
+    qDebug() << "clip";
     if(clipStatus) {
         contactTimer->pause();
         contactTimer->setTimer(contactTime);
@@ -245,7 +256,7 @@ void CES::timeButtonPress() {
  */
 void CES::upButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked) return;
+    if(isLocked && clipStatus) return;
     if(selectedScreen == mainScreen)
         setAmperage(selectedAmp < 500 ? selectedAmp + 50 : 500);
     if(selectedScreen == logScreen)
@@ -257,7 +268,7 @@ void CES::upButtonPress() {
  */
 void CES::downButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked) return;
+    if(isLocked && clipStatus) return;
     if(selectedScreen == mainScreen)
        setAmperage(selectedAmp > 0 ? selectedAmp - 50 : 0);
     else if(selectedScreen == logScreen)
@@ -270,7 +281,7 @@ void CES::downButtonPress() {
  */
 void CES::waveButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked || selectedScreen != mainScreen) return;
+    if((isLocked && clipStatus) || selectedScreen != mainScreen) return;
     setWave((selectedWave + 1) % 3);
 }
 
@@ -280,7 +291,7 @@ void CES::waveButtonPress() {
  */
 void CES::freqButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked || selectedScreen != mainScreen) return;
+    if((isLocked && clipStatus) || selectedScreen != mainScreen) return;
     setFrequency((selectedFreq + 1) % 3);
 }
 
@@ -312,7 +323,7 @@ void CES::lockButtonPress() {
 
 void CES::logButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked) return;
+    if((isLocked && clipStatus)) return;
     if(selectedScreen == mainScreen) setScreen(logScreen);
     else {
         if(logScreen->selectedIndex != 0) {
@@ -327,6 +338,6 @@ void CES::logButtonPress() {
 
 void CES::recordButtonPress() {
     idleTimer->setTimer(idleTime);
-    if(isLocked || selectedScreen != mainScreen) return;
+    if(selectedScreen != mainScreen) return;
     toggleRecording();
 }

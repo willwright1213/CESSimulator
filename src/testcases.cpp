@@ -27,7 +27,7 @@ void TestCases::init() {
 }
 
 void TestCases::cleanup() {
-    emit w->powerButton()->pressed();
+    if(w->ces->powerStatus) emit w->powerButton()->pressed();
 }
 
 
@@ -179,23 +179,23 @@ void TestCases::freqUiTest() {
  */
 void TestCases::startPauseClockTest() {
     QVERIFY2(w->ces->clockTimer->isPaused && !w->ces->clipStatus, "Clock is not running if clip status is off");
-    emit w->clipperButton()->pressed();
+    emit w->clipperButton()->clicked();
     QVERIFY2(!w->ces->clockTimer->isPaused && w->ces->clipStatus, "Clock is running when clipper is on");
     emit w->powerButton()->pressed();
     QVERIFY2(w->ces->clockTimer->isPaused, "clock is paused when power is off");
     emit w->powerButton()->pressed();
     QVERIFY2(!w->ces->clockTimer->isPaused && w->ces->clipStatus, "clock resumes when power turns on");
-    emit w->clipperButton()->pressed();
+    emit w->clipperButton()->clicked();
 }
 
 /*!
  * Verifies that the clock ui updates when the clockTimer starts
  */
 void TestCases::clockUpdatesUiTest() {
-    emit w->clipperButton()->pressed();
+    emit w->clipperButton()->clicked();
     int t1 = w->ces->timer;
-    QTRY_VERIFY_WITH_TIMEOUT(t1 != w->ces->timer, 100);
-    emit w->clipperButton()->pressed();
+    QTRY_VERIFY_WITH_TIMEOUT(t1 != w->ces->timer, 1000);
+    emit w->clipperButton()->clicked();
 }
 
 /*!
@@ -210,10 +210,30 @@ void TestCases::amperageOverloadTest() {
 /*!
  * verifies that the system shuts down if no action is taken
  */
-void TestCases::testIdleTimer() {
-    w->ces->idleTimer->setTimer(60);
-    QTRY_VERIFY_WITH_TIMEOUT(!w->ces->powerStatus, 900);
+void TestCases::idleTimerTest() {
+    w->ces->idleTimer->setTimer(1);
+    QTRY_VERIFY_WITH_TIMEOUT(!w->ces->powerStatus, 1000);
     emit w->powerButton()->pressed();
+}
+
+/*!
+ * Verifies that the idle timer resets if action is taken
+ */
+void TestCases::batteryDrainTest() {
+    w->clipperButton()->clicked();
+    QTRY_VERIFY_WITH_TIMEOUT(w->ces->batteryLife < 100.0, 600);
+    w->clipperButton()->clicked();
+}
+
+/*!
+ * Test the device shuts down at 2.0 battery life
+ */
+void TestCases::batteryShutDownTest() {
+    w->ces->setBatteryLife(2.5);
+    w->clipperButton()->clicked();
+    QTRY_VERIFY_WITH_TIMEOUT(w->ces->batteryLife == 2.0 && !w->ces->powerStatus, 600);
+    w->clipperButton()->clicked();
+    w->ces->setBatteryLife(100.0);
 }
 
 /*!
@@ -239,15 +259,16 @@ void TestCases::recUiTest() {
  * verifies that options can't be modified if the system is locked
  */
 void TestCases::lockTest() {
+    emit w->clipperButton()->clicked();
     qDebug() << w->ces->selectedTime;
     emit w->lockButton()->pressed();
     emit w->timerButton()->pressed();
     emit w->waveButton()->pressed();
     emit w->upButton()->pressed();
     emit w->frequencyButton()->pressed();
-    emit w->recordButton()->pressed();
     emit w->logButton()->pressed();
     emit w->lockButton()->pressed();
+    emit w->clipperButton()->clicked();
     defaultStateTest();
     QVERIFY(w->ces->selectedScreen == w->ces->mainScreen);
 }
@@ -257,12 +278,13 @@ void TestCases::lockTest() {
  */
 void TestCases::recordingTest() {
     setValues();
+    qDebug() << w->ces->batteryLife;
+    qDebug() << w->ces->powerStatus;
     w->ces->setTime(10);
     emit w->recordButton()->pressed();
     emit w->ces->clockTimer->end();
     QTRY_VERIFY_WITH_TIMEOUT(w->ces->recordings.size() == 1, 100);
     emit w->powerButton()->pressed();
-
 }
 
 /*!

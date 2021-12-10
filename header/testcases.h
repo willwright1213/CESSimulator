@@ -54,10 +54,10 @@ private slots:
     void amperageOverloadTest();
     void startPauseClockTest();
     void clockUpdatesUiTest();
-    void testIdleTimer();
+    void idleTimerTest();
     //void resetIdleTimer();
-    //void batteryDrainTest()
-    //void batterySoundTest()
+    void batteryDrainTest();
+    void batteryShutDownTest();
     void recordingTest();
     void loadRecordingTest();
 };

@@ -93,6 +93,7 @@ private:
     void toggleRecording();
     void togglePower();
     void showLogScreen();
+    void setBatteryLife(double d);
 
 public slots:
 
