@@ -31,9 +31,6 @@ CES::CES(QLayout *screen, QObject *parent) : QObject(parent)
 
     connect(idleTimer, &Timer::end, this, &CES::shutDown);
 
-    connect(this, &CES::stopClock, clockTimer, &Timer::stop);
-    connect(this, &CES::startClock, clockTimer, &Timer::start);
-    connect(this, &CES::pauseClock, clockTimer, &Timer::pause);
 
     connect(contactTimer, &Timer::end, this, &CES::setDefaultValues);
 

@@ -5,9 +5,6 @@
 #include <QObject>
 
 
-typedef enum {CLOCK, BATTERY, IDLE} TimerType;
-
-
 class Timer : public QObject, public QRunnable
 {
     Q_OBJECT
@@ -24,17 +21,14 @@ private:
     bool isPaused = true;
     bool countDownFinished = true;
     int msecs;
-    TimerType type;
     int countDown = 0;
     void startClock();
-    void idleCheck();
 
 private slots:
     void stop();
     void start();
     void pause();
 signals:
-    void reqDecrementClock();
     void tick();
     void end();
 

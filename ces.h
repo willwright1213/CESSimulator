@@ -91,18 +91,8 @@ private:
     void toggleClipStatus();
     void toggleLock();
     void toggleRecording();
+    void togglePower();
     void showLogScreen();
-
-
-signals:
-    void updateTimeUi(int);
-    void updateWaveUi(int);
-    void updateFreqUi(int);
-    void updateAmpUi(int);
-    void stopClock();
-    void startClock();
-    void pauseClock();
-
 
 public slots:
 
@@ -116,7 +106,6 @@ public slots:
     void lockButtonPress();
     void logButtonPress();
     void recordButtonPress();
-    void togglePower();
     //slots that handles timers
     void decrementClock();
     void decrementBattery();
