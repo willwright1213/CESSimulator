@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/sound"/>
-    <qresource prefix="/">
-        <file>lowBattery.wav</file>
-    </qresource>
-</RCC>
