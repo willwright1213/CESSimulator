@@ -1,4 +1,3 @@
-Test
 Team 1
 Authors:
 William Wright (10104993)
