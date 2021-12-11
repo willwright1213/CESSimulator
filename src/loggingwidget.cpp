@@ -40,7 +40,8 @@ void LoggingWidget::unselectItem() {}
 void LoggingWidget::refreshUi(){}
 
 void LoggingWidget::moveUp() {
-    qDebug() << -1 % 7;
+    if(ui->logs->count() < 4) return;
+    qDebug() << ui->logs->count();
     if(selectedIndex == 3) selectItem(0);
     else selectItem(selectedIndex == 0 ? ui->logs->count() - 1 : selectedIndex - 1);
 }
