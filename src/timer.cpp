@@ -17,14 +17,8 @@ void Timer::startClock(){
     while(isRunning) {
         while(countDown > 0) {
             countDownFinished = false;
-            while(isPaused) {
-                if(!isRunning) return;
-            }
-            QTime oneSec = QTime::currentTime().addMSecs(msecs);
-            while (QTime::currentTime() < oneSec) {
-                if(clockReset || isPaused) break;
-                if(!isRunning) return;
-            }
+            QThread::msleep(msecs);
+            if(!isRunning) return;
             if(isPaused) continue;
             if(clockReset) {
                 clockReset = false;
